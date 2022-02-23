@@ -124,9 +124,9 @@ class Sprite {
             c = this.img.width / this.tileW;
             sy = Math.floor((this.currentFrame - 1) / c);
             sx = (this.currentFrame - 1) % c;
-            pCtx.drawImage(this.img, sx * this.tileW, sy * this.tileH, this.tileW, this.tileH, this.x, this.y, this.tileW * this.scaleX, this.tileH * this.scaleY)
+            pCtx.drawImage(this.img, sx * this.tileW, sy * this.tileH, this.tileW, this.tileH, Math.floor(this.x), Math.floor(this.y), this.tileW * this.scaleX, this.tileH * this.scaleY)
         } else {
-            pCtx.drawImage(this.img, this.x, this.y);
+            pCtx.drawImage(this.img, Math.floor(this.x), Math.floor(this.y));
         }
     }
 }

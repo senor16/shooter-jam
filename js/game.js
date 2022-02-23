@@ -2,14 +2,35 @@ let assetLoader;
 let start;
 let sceneGame;
 
+
 /**
  * Start the game
  */
 function startGame() {
-    start = true
-    sceneGame = new SceneGame(assetLoader)
+    start = true;
+    sceneGame = new SceneGame(assetLoader);
     sceneGame.load()
 
+}
+
+/**
+ * Handle when a key is down
+ * @param {KeyboardEvent} pKey
+ */
+function keyDown(pKey) {
+    pKey.preventDefault();
+    // console.log("Key down "  + pKey.code)
+    sceneGame.keyDown(pKey.code)
+}
+
+/**
+ * Handle when a key is released
+ * @param {KeyboardEvent} pKey
+ */
+function keyUp(pKey) {
+    pKey.preventDefault();
+    // console.log("Key up " + pKey.code)
+    sceneGame.keyUp(pKey.code)
 }
 
 // The game loop
@@ -20,9 +41,13 @@ function startGame() {
 function load() {
     start = false;
     assetLoader = new AssetLoader();
-    assetLoader.addImage("vault/images/Backgrounds/back.png")
-    assetLoader.addImage("vault/images/Sprites/PNG/playerShip3_green.png")
-    assetLoader.start(startGame)
+    assetLoader.addImage("vault/images/Backgrounds/back.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/playerShip3_green.png");
+    assetLoader.start(startGame);
+
+
+    document.onkeydown = keyDown;
+    document.onkeyup = keyUp
 }
 
 /**
