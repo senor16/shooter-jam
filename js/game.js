@@ -1,11 +1,14 @@
 let assetLoader;
 let start;
+let sceneGame;
 
 /**
  * Start the game
  */
 function startGame() {
     start = true
+    sceneGame = new SceneGame(assetLoader)
+    sceneGame.load()
 
 }
 
@@ -17,7 +20,9 @@ function startGame() {
 function load() {
     start = false;
     assetLoader = new AssetLoader();
-
+    assetLoader.addImage("vault/images/Backgrounds/back.png")
+    assetLoader.addImage("vault/images/Sprites/PNG/playerShip3_green.png")
+    assetLoader.start(startGame)
 }
 
 /**
@@ -26,8 +31,9 @@ function load() {
  */
 function update(dt) {
     if (!start) {
-
+        return
     }
+    sceneGame.update(dt)
 
 }
 
@@ -43,5 +49,7 @@ function draw(pCtx) {
         pCtx.fillRect(0, 0, 100, 20);
         pCtx.fillStyle = "rgb(119,255,64)";
         pCtx.fillRect(0, 0, 100 * ratio, 20);
+        return
     }
+    sceneGame.draw(pCtx)
 }
