@@ -1,12 +1,13 @@
 class Hero {
     /**
      * Create an instance of Hero
+     * @param {ServiceManager} pServiceManager
      * @param {Sprite} pSprite
      * @param {Number} pX
      * @param {Number} pY
      * @param {Number} pSpeed
      */
-    constructor(pSprite, pX = 0, pY = 0, pSpeed = 0) {
+    constructor(pServiceManager,pSprite, pX = 0, pY = 0, pSpeed = 0) {
         this.x = pX;
         this.y = pY;
         this.vx = 0;
@@ -17,6 +18,11 @@ class Hero {
         this.right = false;
         this.bottom = false;
         this.left = false
+        this.serviceManager = pServiceManager
+        this.shoot =false
+        this.shootTimer=0;
+        this.shootTimerMax=1;
+
     }
 
     /**
@@ -36,6 +42,9 @@ class Hero {
                 break;
             case 'ArrowLeft':
                 this.left = true;
+                break;
+            case 'Space':
+                this.shoot = true;
                 break;
         }
     }
@@ -58,6 +67,10 @@ class Hero {
             case 'ArrowLeft':
                 this.left = false;
                 break;
+            case 'Space':
+                this.shoot = false;
+                this.shootTimer=0
+                break;
         }
     }
 
@@ -77,6 +90,14 @@ class Hero {
             this.vy = this.speed;
         if (this.left && this.x - this.sprite.img.height > 0)
             this.vx = -this.speed;
+        if(this.shoot){
+            this.shootTimer-=dt
+            if(this.shootTimer<=0){
+                // this.serviceManager.bulletManager.add(this.x,this.y,2,0,'FRIENDLY')
+                this.shootTimer=this.shootTimerMax
+                console.log("Shoot")
+            }
+        }
 
         this.x += this.vx;
         this.y += this.vy;

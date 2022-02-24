@@ -19,7 +19,7 @@ function startGame() {
  */
 function keyDown(pKey) {
     pKey.preventDefault();
-    // console.log("Key down "  + pKey.code)
+    console.log("Key down "  + pKey.code)
     sceneGame.keyDown(pKey.code)
 }
 
@@ -42,6 +42,7 @@ function load() {
     start = false;
     assetLoader = new AssetLoader();
     assetLoader.addImage("vault/images/Backgrounds/back.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png");
     assetLoader.addImage("vault/images/Sprites/PNG/playerShip3_green.png");
     assetLoader.start(startGame);
 

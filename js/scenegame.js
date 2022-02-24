@@ -4,18 +4,20 @@ class SceneGame {
      * @param {AssetLoader} pAssetLoader
      */
     constructor(pAssetLoader) {
-        this.assetLoader = pAssetLoader
+        this.serviceManager = new ServiceManager()
+        this.serviceManager.setBulletManager = new BulletManager()
+        this.serviceManager.setAssetLoader =pAssetLoader
     }
 
     /**
      * Initialise the scene
      */
     load() {
-        this.backgroundImage = this.assetLoader.getImage("vault/images/Backgrounds/back.png");
+        this.backgroundImage = this.serviceManager.assetLoader.getImage("vault/images/Backgrounds/back.png");
         this.background = new Background(this.backgroundImage, 2);
-        let heroSpr = new Sprite(assetLoader.getImage("vault/images/Sprites/PNG/playerShip3_green.png"));
+        let heroSpr = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/playerShip3_green.png"));
         let heroY = getGameHeight() / 2 - heroSpr.img.height / 2;
-        this.hero = new Hero(heroSpr, 80, heroY, 2)
+        this.hero = new Hero(this.serviceManager,heroSpr, 80, heroY, 2)
     }
 
     /**
