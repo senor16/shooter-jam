@@ -20,6 +20,7 @@ class Background {
         this.distance += this.speed;
         if (this.x <= -this.img.width)
             this.x = 0
+        console.log(this.distance-getGameWidth())
     }
 
     /**

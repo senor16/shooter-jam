@@ -16,8 +16,17 @@ class SceneGame {
         this.serviceManager.setHero = new Hero(heroSpr, 5, heroY, 2);
 
         this.serviceManager.setWaveManager = new WaveManager();
-        let wave = new Wave(400, getGameWidth() + 100, 40, 1, 5, 'CASUAL');
-        this.serviceManager.waveManager.add(wave)
+        let wave1 = new Wave(getGameWidth() + 200, getGameWidth() + 100, 10, 1, 5, 'CASUAL', "CASCADE");
+        let wave2 = new Wave(getGameWidth() + 1900, getGameWidth() + 100, 10, 1, 15, 'CASUAL', 'COLUMN');
+        // let wave4 = new Wave(400, getGameWidth() + 100, 40, 1, 5, 'CASUAL');
+        // let wave5 = new Wave(400, getGameWidth() + 100, 40, 1, 5, 'CASUAL');
+        // let wave6 = new Wave(400, getGameWidth() + 100, 40, 1, 5, 'CASUAL');
+        // let wave7 = new Wave(400, getGameWidth() + 100, 40, 1, 5, 'CASUAL');
+        // let wave8 = new Wave(400, getGameWidth() + 100, 40, 1, 5, 'CASUAL');
+        // let wave9 = new Wave(400, getGameWidth() + 100, 40, 1, 5, 'CASUAL');
+        // let wave10 = new Wave(400, getGameWidth() + 100, 40, 1, 5, 'CASUAL');
+        this.serviceManager.waveManager.add(wave1);
+        this.serviceManager.waveManager.add(wave2);
     }
 
     /**

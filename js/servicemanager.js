@@ -1,4 +1,7 @@
 class ServiceManager {
+    /**
+     * Create an instance of service manager
+     */
     constructor() {
         /** @type BulletManager */
         this.bulletManager = null;
