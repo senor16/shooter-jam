@@ -19,7 +19,7 @@ function startGame() {
  */
 function keyDown(pKey) {
     pKey.preventDefault();
-    console.log("Key down "  + pKey.code)
+    // console.log("Key down "  + pKey.code)
     sceneGame.keyDown(pKey.code)
 }
 
@@ -40,10 +40,13 @@ function keyUp(pKey) {
  */
 function load() {
     start = false;
+    // Load images
     assetLoader = new AssetLoader();
     assetLoader.addImage("vault/images/Backgrounds/back.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png");
     assetLoader.addImage("vault/images/Sprites/PNG/playerShip3_green.png");
+    // Load audio
+    assetLoader.addAudio("vault/audio/sfx/sfx_laser1.ogg")
     assetLoader.start(startGame);
 
 

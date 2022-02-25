@@ -1,13 +1,12 @@
 class Hero {
     /**
      * Create an instance of Hero
-     * @param {ServiceManager} pServiceManager
      * @param {Sprite} pSprite
      * @param {Number} pX
      * @param {Number} pY
      * @param {Number} pSpeed
      */
-    constructor(pServiceManager,pSprite, pX = 0, pY = 0, pSpeed = 0) {
+    constructor(pSprite, pX = 0, pY = 0, pSpeed = 0) {
         this.x = pX;
         this.y = pY;
         this.vx = 0;
@@ -17,12 +16,19 @@ class Hero {
         this.up = false;
         this.right = false;
         this.bottom = false;
-        this.left = false
-        this.serviceManager = pServiceManager
-        this.shoot =false
-        this.shootTimer=0;
-        this.shootTimerMax=1;
+        this.left = false;
+        this.shoot = false;
+        this.shootTimer = 0;
+        this.shootTimerMax = .5;
 
+    }
+
+    /**
+     * Load the hero
+     * @param {ServiceManager} pServiceManager
+     */
+    load(pServiceManager) {
+        this.serviceManager = pServiceManager;
     }
 
     /**
@@ -69,7 +75,7 @@ class Hero {
                 break;
             case 'Space':
                 this.shoot = false;
-                this.shootTimer=0
+                this.shootTimer = 0;
                 break;
         }
     }
@@ -88,13 +94,13 @@ class Hero {
             this.vx = this.speed;
         if (this.bottom)
             this.vy = this.speed;
-        if (this.left && this.x - this.sprite.img.height > 0)
+        if (this.left /*&& this.x - this.sprite.img.height > 0*/)
             this.vx = -this.speed;
-        if(this.shoot){
-            this.shootTimer-=dt
-            if(this.shootTimer<=0){
-                // this.serviceManager.bulletManager.add(this.x,this.y,2,0,'FRIENDLY')
-                this.shootTimer=this.shootTimerMax
+        if (this.shoot) {
+            this.shootTimer -= dt;
+            if (this.shootTimer <= 0) {
+                this.serviceManager.bulletManager.add(this.x+this.sprite.img.width, this.y+this.sprite.img.height/2, 2, 0, 'FRIENDLY');
+                this.shootTimer = this.shootTimerMax;
                 console.log("Shoot")
             }
         }
@@ -103,6 +109,7 @@ class Hero {
         this.y += this.vy;
         this.sprite.x = this.x;
         this.sprite.y = this.y;
+        console.log(this.x,this.y)
     }
 
 
@@ -111,12 +118,7 @@ class Hero {
      * @param {CanvasRenderingContext2D} pCtx - The context used to draw in the canvas
      */
     draw(pCtx) {
-        pCtx.save();
-        pCtx.translate(this.x, this.y);
-        pCtx.rotate(Math.PI / 2);
-        pCtx.translate(-this.x, -this.y);
         this.sprite.draw(pCtx);
-        pCtx.restore()
     }
 
 

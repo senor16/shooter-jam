@@ -10,7 +10,7 @@ class Sprite {
         this.y = pY;
         this.img = pImg;
         this.currentFrame = 0;
-        this.hasTileSheet = false
+        this.hasTileSheet = false;
         this.tileW = 0;
         this.tileH = 0;
         this.scaleX = 1;
@@ -19,17 +19,6 @@ class Sprite {
         this.currentAnimation = null;
         this.currentFrameInAnimation = 0;
         this.frameTimer = 0;
-    }
-
-    /**
-     * Set the tilesheet of the sprite
-     * @param {Number} pW - Width
-     * @param {Number} pH - Height
-     */
-    setTileSheet(pW = 0, pH = 0){
-        this.hasTileSheet = true;
-        this.tileW = pW;
-        this.tileH = pH;
     }
 
     /**
@@ -46,6 +35,17 @@ class Sprite {
      */
     set setY(pY) {
         this.y = Math.floor(pY)
+    }
+
+    /**
+     * Set the tilesheet of the sprite
+     * @param {Number} pW - Width
+     * @param {Number} pH - Height
+     */
+    setTileSheet(pW = 0, pH = 0) {
+        this.hasTileSheet = true;
+        this.tileW = pW;
+        this.tileH = pH;
     }
 
     /**
@@ -119,6 +119,7 @@ class Sprite {
      * @param {CanvasRenderingContext2D} pCtx - The context used to draw in the canvas
      */
     draw(pCtx) {
+
         if (this.hasTileSheet) {
             let sx, sy, c, l;
             c = this.img.width / this.tileW;
@@ -128,5 +129,6 @@ class Sprite {
         } else {
             pCtx.drawImage(this.img, Math.floor(this.x), Math.floor(this.y));
         }
+
     }
 }

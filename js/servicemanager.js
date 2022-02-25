@@ -1,15 +1,18 @@
-class ServiceManager{
-    constructor(){
-        this.bulletManager = null
-        this.assetLoader = null
-        this.hero=null
+class ServiceManager {
+    constructor() {
+        /** @type BulletManager */
+        this.bulletManager = null;
+        /** @type AssetLoader */
+        this.assetLoader = null;
+        /** @type Hero */
+        this.hero = null
     }
 
     /**
      * Set bullet manager
      * @param {BulletManager} pBulletManager
      */
-    set setBulletManager(pBulletManager){
+    set setBulletManager(pBulletManager) {
         this.bulletManager = pBulletManager
     }
 
@@ -17,8 +20,17 @@ class ServiceManager{
      * Set asset loader
      * @param {AssetLoader} pAssetLoader
      */
-    set setAssetLoader(pAssetLoader){
+    set setAssetLoader(pAssetLoader) {
         this.assetLoader = pAssetLoader
     }
+
+    /**
+     * set Hero
+     * @param {Hero} pHero
+     */
+    set setHero(pHero) {
+        this.hero = pHero
+    }
+
 
 }

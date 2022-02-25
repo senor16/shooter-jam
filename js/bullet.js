@@ -11,7 +11,9 @@ class Bullet {
     constructor(pSprite, pType, pX, pY, pVx, pVy) {
         this.sprite = pSprite;
         this.vx = pVx;
-        this.vy = pVy
+        this.vy = pVy;
+        this.x = pX;
+        this.y = pY
     }
 
     /**
@@ -38,14 +40,23 @@ class Bullet {
 class BulletManager {
     /**
      * Create an instance of bullet manager
-     * @param {ServiceManager} pServiceManager
      */
-    constructor(pServiceManager) {
+    constructor() {
         this.bulletList = [];
-        this.serviceManager = pServiceManager
+        /** @type Audio */
+        this.sfxShoot=null
     }
 
-    * /**
+    /**
+     * Load the service manager
+     * @param {ServiceManager} pServiceManager
+     */
+    load(pServiceManager) {
+        this.serviceManager = pServiceManager
+        this.sfxShoot=this.serviceManager.assetLoader.getAudio("vault/audio/sfx/sfx_laser1.ogg")
+    }
+
+    /**
      * Add a bullet
      * @param {Number} pX
      * @param {Number} pY
@@ -56,10 +67,12 @@ class BulletManager {
     add(pX, pY, pVx, pVy, pType) {
         if (pType === 'FRIENDLY') {
             let sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png"));
-            let bullet = new Bullet(sprite, 'FRIENDLY', pX, pY, pVx, pVy);
+            let bullet = new Bullet(sprite, 'FRIENDLY', pX, pY-sprite.img.height/2, pVx, pVy);
             this.bulletList.push(bullet);
+            this.sfxShoot.currentTime=0
+            this.sfxShoot.play()
         }
-        console.log(this.bulletList.length)
+        // console.log(this.bulletList.length)
 
     }
 
@@ -77,7 +90,7 @@ class BulletManager {
      * @param {Number} dt - Delta time
      */
     update(dt) {
-        for (let i = this.bulletList.length; i > 0; i--) {
+        for (let i = this.bulletList.length - 1; i >= 0; i--) {
             let bullet = this.bulletList[i];
             bullet.update(dt);
             // Remove a bullet when it is out of the screen
@@ -85,7 +98,6 @@ class BulletManager {
                 this.remove(bullet)
             }
         }
-        console.log(this.bulletList.length)
     }
 
     /**
