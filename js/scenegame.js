@@ -7,19 +7,27 @@ class SceneGame {
         this.serviceManager = new ServiceManager();
         this.serviceManager.setBulletManager = new BulletManager();
         this.serviceManager.setAssetLoader = pAssetLoader;
-        this.backgroundImage = this.serviceManager.assetLoader.getImage("vault/images/Backgrounds/back.png");
-        this.background = new Background(this.backgroundImage, 2);
+
+        let backgroundImage = this.serviceManager.assetLoader.getImage("vault/images/Backgrounds/back.png");
+        this.serviceManager.setBackground = new Background(backgroundImage, 2);
+
         let heroSpr = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/playerShip3_green.png"));
         let heroY = getGameHeight() / 2 - heroSpr.img.height / 2;
-        this.serviceManager.setHero = new Hero(heroSpr, 5, heroY, 2)
+        this.serviceManager.setHero = new Hero(heroSpr, 5, heroY, 2);
+
+        this.serviceManager.setWaveManager = new WaveManager();
+        let wave = new Wave(400, getGameWidth() + 100, 40, 1, 5, 'CASUAL');
+        this.serviceManager.waveManager.add(wave)
     }
 
     /**
      * Initialise the scene
      */
     load() {
+        this.serviceManager.waveManager.load(this.serviceManager);
         this.serviceManager.hero.load(this.serviceManager);
         this.serviceManager.bulletManager.load(this.serviceManager)
+
     }
 
     /**
@@ -43,9 +51,10 @@ class SceneGame {
      * @param {Number} dt - Delta time
      */
     update(dt) {
-        this.background.update(dt);
+        this.serviceManager.background.update(dt);
         this.serviceManager.hero.update(dt);
-        this.serviceManager.bulletManager.update(dt)
+        this.serviceManager.bulletManager.update(dt);
+        this.serviceManager.waveManager.update(dt)
     }
 
     /**
@@ -53,9 +62,10 @@ class SceneGame {
      * @param {CanvasRenderingContext2D} pCtx - The context used to draw in the canvas
      */
     draw(pCtx) {
-        this.background.draw(pCtx);
+        this.serviceManager.background.draw(pCtx);
+        this.serviceManager.waveManager.draw(pCtx);
+        this.serviceManager.bulletManager.draw(pCtx);
         this.serviceManager.hero.draw(pCtx);
-        this.serviceManager.bulletManager.draw(pCtx)
 
     }
 }

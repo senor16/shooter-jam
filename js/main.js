@@ -23,7 +23,7 @@ function run(time) {
     fps = 1 / dt;
     oldTime = time;
     update(dt);
-    context.clearRect(0,0,canvas.width,canvas.height);
+    context.clearRect(0, 0, canvas.width, canvas.height);
     draw(context);
 }
 
@@ -43,7 +43,7 @@ function init() {
  * Get the width of the canvas
  * @returns {Number}
  */
-function getGameWidth(){
+function getGameWidth() {
     return canvas.width
 }
 
@@ -51,7 +51,7 @@ function getGameWidth(){
  * Get the height of the canvas
  * @returns {Number}
  */
-function getGameHeight(){
+function getGameHeight() {
     return canvas.height
 }
 

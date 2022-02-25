@@ -99,9 +99,8 @@ class Hero {
         if (this.shoot) {
             this.shootTimer -= dt;
             if (this.shootTimer <= 0) {
-                this.serviceManager.bulletManager.add(this.x+this.sprite.img.width, this.y+this.sprite.img.height/2, 2, 0, 'FRIENDLY');
+                this.serviceManager.bulletManager.add(this.x + this.sprite.img.width, this.y + this.sprite.img.height / 2, 2, 0, 'FRIENDLY');
                 this.shootTimer = this.shootTimerMax;
-                console.log("Shoot")
             }
         }
 
@@ -109,7 +108,6 @@ class Hero {
         this.y += this.vy;
         this.sprite.x = this.x;
         this.sprite.y = this.y;
-        console.log(this.x,this.y)
     }
 
 

@@ -18,6 +18,30 @@ class AssetLoader {
     }
 
     /**
+     * Get the number of images to be loaded
+     * @returns {number}
+     */
+    get getTotalImage() {
+        return this.listImagePath.length
+    }
+
+    /**
+     * Get the number of images which has been loaded
+     * @returns {number}
+     */
+    get getLoadedImage() {
+        return this.loadedImage
+    }
+
+    /**
+     * Get an reference to the loaded images
+     * @returns {Array}
+     */
+    get getListImages() {
+        return this.listImage
+    }
+
+    /**
      * Add a font to be loaded
      * @param {String} pName - Name of the font
      * @param {String} pPath - Path to the font
@@ -47,30 +71,6 @@ class AssetLoader {
     }
 
     /**
-     * Get the number of images to be loaded
-     * @returns {number}
-     */
-    get getTotalImage() {
-        return this.listImagePath.length
-    }
-
-    /**
-     * Get the number of images which has been loaded
-     * @returns {number}
-     */
-    get getLoadedImage() {
-        return this.loadedImage
-    }
-
-    /**
-     * Get an reference to the loaded images
-     * @returns {Array}
-     */
-    get getListImages() {
-        return this.listImage
-    }
-
-    /**
      * Get an image which has been loaded
      * @param pPath - Path to the image
      * @returns {Image}
@@ -92,7 +92,7 @@ class AssetLoader {
      */
     onLoadedImage() {
         this.loadedImage++;
-        console.log("Loading images...  " + this.loadedImage + " / " + this.listImagePath.length);
+        // console.log("Loading images...  " + this.loadedImage + " / " + this.listImagePath.length);
         if (this.loadedImage === this.listImagePath.length) {
             this.onFinished()
         }
@@ -104,7 +104,7 @@ class AssetLoader {
     onLoadedFont(font) {
         document.fonts.add(font);
         this.loadedFonts++;
-        console.log("Loading fonts...   " + this.loadedFonts + " / " + this.listFontPath.length);
+        // console.log("Loading fonts...   " + this.loadedFonts + " / " + this.listFontPath.length);
         if (this.loadedFonts === this.listFontPath.length) {
             this.onFinished()
         }
@@ -115,7 +115,7 @@ class AssetLoader {
      */
     onLoadedAudio() {
         this.loadedAudio++;
-        console.log("Loading audio...   "+ this.loadedAudio + " / " + this.listAudioPath.length);
+        // console.log("Loading audio...   " + this.loadedAudio + " / " + this.listAudioPath.length);
         if (this.loadedAudio === this.listAudioPath.length) {
             this.onFinished()
         }

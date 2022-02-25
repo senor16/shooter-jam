@@ -5,7 +5,11 @@ class ServiceManager {
         /** @type AssetLoader */
         this.assetLoader = null;
         /** @type Hero */
-        this.hero = null
+        this.hero = null;
+        /** @type Background*/
+        this.background = null;
+        /** @type WaveManager */
+        this.waveManager = null
     }
 
     /**
@@ -30,6 +34,22 @@ class ServiceManager {
      */
     set setHero(pHero) {
         this.hero = pHero
+    }
+
+    /**
+     * Set background
+     * @param {Background} pBackground
+     */
+    set setBackground(pBackground) {
+        this.background = pBackground
+    }
+
+    /**
+     * set Wave manager
+     * @param {WaveManager} pWaveManager
+     */
+    set setWaveManager(pWaveManager) {
+        this.waveManager = pWaveManager
     }
 
 

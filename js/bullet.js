@@ -44,7 +44,7 @@ class BulletManager {
     constructor() {
         this.bulletList = [];
         /** @type Audio */
-        this.sfxShoot=null
+        this.sfxShoot = null
     }
 
     /**
@@ -52,8 +52,8 @@ class BulletManager {
      * @param {ServiceManager} pServiceManager
      */
     load(pServiceManager) {
-        this.serviceManager = pServiceManager
-        this.sfxShoot=this.serviceManager.assetLoader.getAudio("vault/audio/sfx/sfx_laser1.ogg")
+        this.serviceManager = pServiceManager;
+        this.sfxShoot = this.serviceManager.assetLoader.getAudio("vault/audio/sfx/sfx_laser1.ogg")
     }
 
     /**
@@ -67,9 +67,9 @@ class BulletManager {
     add(pX, pY, pVx, pVy, pType) {
         if (pType === 'FRIENDLY') {
             let sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png"));
-            let bullet = new Bullet(sprite, 'FRIENDLY', pX, pY-sprite.img.height/2, pVx, pVy);
+            let bullet = new Bullet(sprite, 'FRIENDLY', pX, pY - sprite.img.height / 2, pVx, pVy);
             this.bulletList.push(bullet);
-            this.sfxShoot.currentTime=0
+            this.sfxShoot.currentTime = 0;
             this.sfxShoot.play()
         }
         // console.log(this.bulletList.length)
