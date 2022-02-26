@@ -8,6 +8,7 @@ class Sprite {
     constructor(pImg, pX = 0, pY = 0) {
         this.x = pX;
         this.y = pY;
+        /** @type Image*/
         this.img = pImg;
         this.currentFrame = 0;
         this.hasTileSheet = false;

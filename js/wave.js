@@ -30,13 +30,9 @@ class Enemy {
     }
 
     /**
-     * Load the Enemy
-     * @param {ServiceManager} pServiceManager
+     * Update the wave
+     * @param {Number} dt - Delta time
      */
-    load(pServiceManager) {
-        this.serviceManager = pServiceManager;
-    }
-
     update(dt) {
         if (!this.active) {
             this.timer += dt;
@@ -65,16 +61,16 @@ class Enemy {
 class Wave {
     /**
      * Create an instance of wave
-     * @param {Number} pStartX - X position to start the wave
+     * @param {Number} pStartDistance - X position to start the wave
      * @param {Number} pX - X Position to start the enemies
      * @param {Number} pY - Y Position to start the enemies
      * @param {Number} pDelay - Interval between each enemy
      * @param {Number} pCount - Number of enemies in the wave
+     * @param {Image} pImage - Enemy image
      * @param {String} pType - Type of those enemies
      * @param {String} pForm - Form of the wave
-     * @param {Boolean} pCanStopScrolling - Specify whether the wave can stop scrolling
      */
-    constructor(pStartX, pX, pY, pDelay, pCount, pType, pForm, pCanStopScrolling = false) {
+    constructor(pStartDistance, pX, pY, pDelay, pCount, pImage, pType, pForm) {
         this.form = pForm;
         this.enemylist = [];
         this.started = false;
@@ -83,9 +79,8 @@ class Wave {
         this.delay = pDelay;
         this.count = pCount;
         this.type = pType;
-        this.startX = pStartX;
-        this.scroll = true;
-        this.canStopScrolling = pCanStopScrolling
+        this.startDistance = pStartDistance;
+        this.image = pImage;
     }
 
     /**
@@ -115,14 +110,6 @@ class Wave {
     }
 
     /**
-     * Check if the wave is empty
-     * @return Boolean
-     */
-    isEmpty() {
-        return this.enemylist.length === 0
-    }
-
-    /**
      * Update the wave
      * @param {Number} dt - Delta time
      */
@@ -133,17 +120,6 @@ class Wave {
             // Remove an enemy when his life jauge is gone
             if (enemy.life <= 0) {
                 this.remove(enemy)
-            }
-        }
-        // Stop scrolling the wave when all the enemies are active and visible on the screen
-        if (this.canStopScrolling) {
-            let lastEnemy = this.enemylist[this.enemylist.length - 1];
-            if (this.scroll && lastEnemy.active && lastEnemy.x < getGameWidth() - lastEnemy.sprite.img.width * 2) {
-                this.scroll = false;
-                this.enemylist.forEach(enemy => {
-                    enemy.vx = 0;
-                    enemy.vy = 0
-                })
             }
         }
     }
@@ -198,14 +174,15 @@ class WaveManager {
      * @param {Wave} pWave
      */
     startWave(pWave) {
+        pWave.started = true;
         if (this.currentWave !== null) {
             this.stopWave(this.currentWave);
         }
         let y = pWave.y, x = pWave.x, col = 0;
         for (let i = 0; i < pWave.count; i++) {
+            let sprite = new Sprite(pWave.image, pWave.x, pWave.y);
             switch (pWave.type) {
                 case 'CASUAL':
-                    let sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Enemies/enemyGreen1.png"), pWave.x, pWave.y);
                     let enemy = null;
                     switch (pWave.form) {
                         case 'ROW':
@@ -231,6 +208,8 @@ class WaveManager {
                     pWave.add(enemy);
                     break;
                 case 'BOSS':
+                    let boss = new Enemy(sprite, pWave.type, pWave.x, pWave.y, 0);
+                    pWave.add(boss);
                     break;
             }
         }
@@ -253,13 +232,15 @@ class WaveManager {
     update(dt) {
         for (let i = this.waveList.length - 1; i >= 0; i--) {
             let wave = this.waveList[i];
-            if (this.serviceManager.background.distance >= wave.startX) {
+            if (this.serviceManager.background.distance >= wave.startDistance && !wave.started) {
                 this.startWave(wave)
             }
-
         }
+
         if (this.currentWave !== null)
-            this.currentWave.update(dt)
+            this.currentWave.update(dt);
+        console.log(this.waveList.length)
+
     }
 
     /**

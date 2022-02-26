@@ -11,6 +11,7 @@ class Hero {
         this.y = pY;
         this.vx = 0;
         this.vy = 0;
+        /** @type Sprite*/
         this.sprite = pSprite;
         this.speed = pSpeed;
         this.up = false;
@@ -88,18 +89,18 @@ class Hero {
         // Move the player
         this.vx = 0;
         this.vy = 0;
-        if (this.up)
+        if (this.up && this.y > 0)
             this.vy = -this.speed;
-        if (this.right)
+        if (this.right && this.x + this.sprite.img.width < getGameWidth())
             this.vx = this.speed;
-        if (this.bottom)
+        if (this.bottom && this.y + this.sprite.img.height < getGameHeight())
             this.vy = this.speed;
-        if (this.left /*&& this.x - this.sprite.img.height > 0*/)
+        if (this.left && this.x > 0)
             this.vx = -this.speed;
         if (this.shoot) {
             this.shootTimer -= dt;
             if (this.shootTimer <= 0) {
-                this.serviceManager.bulletManager.add(this.x + this.sprite.img.width, this.y + this.sprite.img.height / 2, 2, 0, 'FRIENDLY');
+                this.serviceManager.bulletManager.add(this.x + this.sprite.img.width, this.y + this.sprite.img.height / 2, 4, 0, 'FRIENDLY');
                 this.shootTimer = this.shootTimerMax;
             }
         }

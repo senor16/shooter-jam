@@ -46,6 +46,7 @@ function load() {
     assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png");
     assetLoader.addImage("vault/images/Sprites/PNG/playerShip3_green.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen1.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen4.png");
     // Load audio
     assetLoader.addAudio("vault/audio/sfx/sfx_laser1.ogg");
     assetLoader.start(startGame);
