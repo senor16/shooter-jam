@@ -48,6 +48,7 @@ function load() {
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen1.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen4.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen14.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/Parts/cockpitGreen_1.png");
     // Load audio
     assetLoader.addAudio("vault/audio/sfx/sfx_laser1.ogg");
     assetLoader.addAudio("vault/audio/sfx/explode_touch.wav");
@@ -114,6 +115,17 @@ function angle(x1, y1, x2, y2) {
  * @returns {boolean}
  */
 function isColliding(x1, y1, w1, h1, x2, y2, w2, h2) {
-    let col = x1 < x2 + w2 && x2 < x1 + h1 && y1 < y2 + h2 && y2 < y1 + h1;
-    return col
+    return x1 < x2 + w2 && x2 < x1 + h1 && y1 < y2 + h2 && y2 < y1 + h1
+}
+
+/**
+ * Return the distance between two points
+ * @param {number} x1 - x coordinates of the first sprite
+ * @param {number} y1 - y coordinates of the first sprite
+ * @param {number} x2 - x coordinates of the second sprite
+ * @param {number} y2 - y coordinates of the second sprite
+ * @returns {number}
+ */
+function distance(x1, y1, x2, y2) {
+    return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 }

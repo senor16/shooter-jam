@@ -27,7 +27,7 @@ class SceneGame {
         this.serviceManager.waveManager.load(this.serviceManager);
 
         let imgCasual = this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Enemies/enemyGreen1.png");
-        let wave1 = new Wave(getGameWidth() + 200, getGameWidth() + 100, 10, 1, 5, imgCasual, 'CASUAL', "ROW");
+        let wave1 = new Wave(getGameWidth(), getGameWidth() + 100, 10, 1, 5, imgCasual, 'CASUAL', "ROW");
         let wave2 = new Wave(getGameWidth() * 1.5 + wave1.startDistance + imgCasual.width * wave1.count, getGameWidth() + 100, imgCasual.height * 2, 1, 5, imgCasual, 'CASUAL', "ROW");
         let wave3 = new Wave(getGameWidth() * 1.5 + wave2.startDistance + imgCasual.width * wave2.count, getGameWidth() + 100, imgCasual.height * 4, 1, 5, imgCasual, 'CASUAL', 'ROW');
         let wave4 = new Wave(getGameWidth() * 1.5 + wave3.startDistance + imgCasual.width * wave3.count, getGameWidth() + 100, 10, 1, 5, imgCasual, 'CASUAL', 'COLUMN');

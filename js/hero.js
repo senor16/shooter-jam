@@ -14,7 +14,9 @@ class Hero {
         this.died = false;
         /** @type Sprite*/
         this.sprite = pSprite;
-        this.lives = 50;
+        this.energie = 10;
+        this.lives = 5;
+        this.maxEnergie = 50;
         this.sprite.x = pX;
         this.sprite.y = pY;
         this.speed = pSpeed;
@@ -24,8 +26,8 @@ class Hero {
         this.left = false;
         this.shoot = false;
         this.shootTimer = 0;
-        this.shootTimerMax = .5;
-
+        this.shootTimerMax = .3;
+        this.pull = false
     }
 
     /**
@@ -57,6 +59,9 @@ class Hero {
             case 'Space':
                 this.shoot = true;
                 break;
+            case 'KeyP':
+                this.pull = true;
+                break;
         }
     }
 
@@ -82,6 +87,9 @@ class Hero {
                 this.shoot = false;
                 this.shootTimer = 0;
                 break;
+            case 'KeyP':
+                this.pull = false;
+                break;
         }
     }
 
@@ -90,9 +98,14 @@ class Hero {
      * Inflict damage to the when fired on
      */
     hurt() {
-        this.lives -= 1;
-        if (this.lives <= 0) {
-            this.died = true
+        this.energie -= 1;
+        if (this.energie <= 0) {
+            if (this.lives > 1) {
+                this.lives--;
+                this.energie = this.maxEnergie
+            } else
+                this.died = true
+
         }
     }
 
@@ -121,6 +134,8 @@ class Hero {
                 this.shootTimer = this.shootTimerMax;
             }
         }
+        if (this.pull && !this.serviceManager.bulletManager.hasSpecial())
+            this.serviceManager.bulletManager.add(this.x + this.sprite.img.width, this.y + this.sprite.img.height / 2, 6, 0, 'HERO', "PULL");
 
         this.x += this.vx * 60 * dt;
         this.y += this.vy * 60 * dt;
@@ -137,7 +152,7 @@ class Hero {
         if (this.died)
             return;
         this.sprite.draw(pCtx);
-        pCtx.fillText(this.lives, this.x + this.sprite.img.width + 10, this.y + 20)
+        pCtx.fillText(this.energie, this.x + this.sprite.img.width + 10, this.y + 20)
 
     }
 

@@ -18,19 +18,19 @@ class Enemy {
         this.timer = 0;
         this.shooTimerMax = 2;
         this.died = false;
-        this.active = false
+        this.active = false;
         /** @type ServiceManager*/
         this.serviceManager = null;
         switch (pType) {
             case 'CASUAL':
                 this.vx = -2;
                 this.vy = 0;
-                this.lives = 2;
+                this.energie = 2;
                 break;
             case 'BOSS':
                 this.vx = -4;
                 this.vy = 0;
-                this.lives = 20;
+                this.energie = 20;
                 break;
         }
     }
@@ -47,8 +47,8 @@ class Enemy {
      * Inflict damage to an enemy when fired on
      */
     hurt() {
-        this.lives -= 1;
-        if (this.lives <= 0) {
+        this.energie -= 1;
+        if (this.energie <= 0) {
             this.died = true
         }
     }
@@ -90,7 +90,7 @@ class Enemy {
         if (!this.active)
             return;
         this.sprite.draw(pCtx);
-        pCtx.fillText(this.lives, this.x - 10, this.y + 20)
+        pCtx.fillText(this.energie, this.x - 10, this.y + 20)
     }
 }
 
@@ -147,6 +147,14 @@ class Wave {
     }
 
     /**
+     * Determine whether a wave is empty
+     * @returns {boolean}
+     */
+    empty() {
+        return this.enemyList.length === 0
+    }
+
+    /**
      * Update the wave
      * @param {Number} dt - Delta time
      */
@@ -162,7 +170,12 @@ class Wave {
             if (enemy.died) {
                 this.remove(enemy)
             }
+
+            if (enemy.x < 0) {
+                this.remove(enemy)
+            }
         }
+        console.log(this.enemyList.length)
     }
 
     /**
@@ -279,6 +292,10 @@ class WaveManager {
         for (let i = this.waveList.length - 1; i >= 0; i--) {
             let wave = this.waveList[i];
             if (this.serviceManager.background.distance >= wave.startDistance && !wave.started) {
+                this.startWave(wave)
+            }
+            if (this.currentWave !== null && this.currentWave.empty() && (i === 1 || i === this.currentWave.enemyList.length)) {
+                wave.x += getGameWidth() / 2;
                 this.startWave(wave)
             }
         }
