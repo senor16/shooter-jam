@@ -9,7 +9,7 @@ class SceneGame {
         this.serviceManager.setAssetLoader = pAssetLoader;
 
         let backgroundImage = this.serviceManager.assetLoader.getImage("vault/images/Backgrounds/back.png");
-        this.serviceManager.setBackground = new Background(backgroundImage, 2);
+        this.serviceManager.setBackground = new Background(backgroundImage, 1);
 
         let heroSpr = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/playerShip3_green.png"));
         let heroY = getGameHeight() / 2 - heroSpr.img.height / 2;
@@ -87,8 +87,8 @@ class SceneGame {
     draw(pCtx) {
         this.serviceManager.background.draw(pCtx);
         this.serviceManager.waveManager.draw(pCtx);
-        this.serviceManager.bulletManager.draw(pCtx);
         this.serviceManager.hero.draw(pCtx);
+        this.serviceManager.bulletManager.draw(pCtx);
 
     }
 }

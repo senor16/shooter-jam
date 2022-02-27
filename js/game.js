@@ -47,6 +47,7 @@ function load() {
     assetLoader.addImage("vault/images/Sprites/PNG/playerShip3_green.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen1.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen4.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen14.png");
     // Load audio
     assetLoader.addAudio("vault/audio/sfx/sfx_laser1.ogg");
     assetLoader.start(startGame);
@@ -83,4 +84,16 @@ function draw(pCtx) {
         return
     }
     sceneGame.draw(pCtx)
+}
+
+/**
+ * Return the angle between two sprites
+ * @param {number} x1 - x coordinates of the first sprite
+ * @param {number} y1 - y coordinates of the first sprite
+ * @param {number} x2 - x coordinates of the second sprite
+ * @param {number} y2 - y coordinates of the second sprite
+ * @returns {number}
+ */
+function angle(x1, y1, x2, y2) {
+    return Math.atan2(y2 - y1, x2 - x1)
 }

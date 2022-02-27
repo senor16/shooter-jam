@@ -13,6 +13,8 @@ class Hero {
         this.vy = 0;
         /** @type Sprite*/
         this.sprite = pSprite;
+        this.sprite.x=pX
+        this.sprite.y=pY
         this.speed = pSpeed;
         this.up = false;
         this.right = false;
@@ -100,7 +102,7 @@ class Hero {
         if (this.shoot) {
             this.shootTimer -= dt;
             if (this.shootTimer <= 0) {
-                this.serviceManager.bulletManager.add(this.x + this.sprite.img.width, this.y + this.sprite.img.height / 2, 4, 0, 'FRIENDLY');
+                this.serviceManager.bulletManager.add(this.x + this.sprite.img.width, this.y + this.sprite.img.height / 2, 6    , 0, 'FRIENDLY');
                 this.shootTimer = this.shootTimerMax;
             }
         }

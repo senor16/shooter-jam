@@ -10,6 +10,8 @@ class Bullet {
      */
     constructor(pSprite, pType, pX, pY, pVx, pVy) {
         this.sprite = pSprite;
+        this.sprite.x=pX
+        this.sprite.y=pY
         this.vx = pVx;
         this.vy = pVy;
         this.x = pX;
@@ -65,14 +67,22 @@ class BulletManager {
      * @param {String} pType
      */
     add(pX, pY, pVx, pVy, pType) {
-        if (pType === 'FRIENDLY') {
-            let sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png"));
-            let bullet = new Bullet(sprite, 'FRIENDLY', pX, pY - sprite.img.height / 2, pVx, pVy);
-            this.bulletList.push(bullet);
-            this.sfxShoot.currentTime = 0;
-            this.sfxShoot.play()
+        let sprite = null;
+        let bullet = null;
+        switch (pType) {
+            case 'FRIENDLY':
+                sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png"));
+                bullet = new Bullet(sprite, 'FRIENDLY', pX, pY - sprite.img.height / 2, pVx, pVy);
+                this.bulletList.push(bullet);
+                this.sfxShoot.currentTime = 0;
+                this.sfxShoot.play();
+                break;
+            case "ENEMY":
+                sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen14.png"));
+                bullet = new Bullet(sprite, 'ENEMY', pX, pY - sprite.img.height / 2, pVx, pVy);
+                this.bulletList.push(bullet);
+                break;
         }
-        // console.log(this.bulletList.length)
 
     }
 
@@ -98,6 +108,8 @@ class BulletManager {
                 this.remove(bullet)
             }
         }
+        console.log(this.bulletList.length)
+
     }
 
     /**

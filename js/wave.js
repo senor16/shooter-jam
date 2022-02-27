@@ -12,9 +12,14 @@ class Enemy {
         this.y = pY;
         this.type = pType;
         this.sprite = pSprite;
+        this.sprite.x=pX
+        this.sprite.y=pY
         this.pendingDelay = pDelay;
         this.timer = 0;
+        this.shooTimerMax = 1;
         this.active = false;
+        /** @type ServiceManager}*/
+        this.serviceManager = null;
         switch (pType) {
             case 'CASUAL':
                 this.vx = -2;
@@ -30,6 +35,14 @@ class Enemy {
     }
 
     /**
+     * Init the Hero
+     * @param pServiceManager
+     */
+    load(pServiceManager) {
+        this.serviceManager = pServiceManager
+    }
+
+    /**
      * Update the wave
      * @param {Number} dt - Delta time
      */
@@ -37,14 +50,25 @@ class Enemy {
         if (!this.active) {
             this.timer += dt;
             if (this.timer >= this.pendingDelay) {
-                this.active = true
+                this.active = true;
+                this.timer = 0
             }
             return
         }
+        this.timer -= dt;
         this.x += this.vx;
         this.y += this.vy;
         this.sprite.x = this.x;
-        this.sprite.y = this.y
+        this.sprite.y = this.y;
+
+        // Shoot at the hero
+        if (this.timer <= 0) {
+            this.timer = this.shooTimerMax;
+            let angl = angle(this.x, this.y, this.serviceManager.hero.x + this.serviceManager.hero.sprite.img.width / 2, this.serviceManager.hero.y);
+            let vx = 10 * Math.cos(angl);
+            let vy = 10 * Math.sin(angl);
+            this.serviceManager.bulletManager.add(this.x, this.y + this.sprite.img.height / 2, vx, vy, "ENEMY")
+        }
     }
 
     /**
@@ -180,9 +204,10 @@ class WaveManager {
         }
         let y = pWave.y, x = pWave.x, col = 0;
         for (let i = 0; i < pWave.count; i++) {
-            let sprite = new Sprite(pWave.image, pWave.x, pWave.y);
+            let sprite = new Sprite(pWave.image);
             switch (pWave.type) {
                 case 'CASUAL':
+                    /**@type Enemy*/
                     let enemy = null;
                     switch (pWave.form) {
                         case 'ROW':
@@ -204,11 +229,14 @@ class WaveManager {
                             y += sprite.img.height + 5;
                             break;
                     }
-
-                    pWave.add(enemy);
+                    if (enemy !== null) {
+                        enemy.load(this.serviceManager);
+                        pWave.add(enemy);
+                    }
                     break;
                 case 'BOSS':
                     let boss = new Enemy(sprite, pWave.type, pWave.x, pWave.y, 0);
+                    boss.load(this.serviceManager);
                     pWave.add(boss);
                     break;
             }
@@ -239,7 +267,7 @@ class WaveManager {
 
         if (this.currentWave !== null)
             this.currentWave.update(dt);
-        console.log(this.waveList.length)
+        // console.log(this.waveList.length)
 
     }
 
