@@ -50,6 +50,7 @@ function load() {
     assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen14.png");
     // Load audio
     assetLoader.addAudio("vault/audio/sfx/sfx_laser1.ogg");
+    assetLoader.addAudio("vault/audio/sfx/explode_touch.wav");
     assetLoader.start(startGame);
 
 

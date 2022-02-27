@@ -3,12 +3,13 @@ class Bullet {
      * Create a bullet
      * @param {Sprite} pSprite
      * @param {String} pType
+     * @param {String} pSpecial - Special behavior of the bullet
      * @param {Number} pX
      * @param {Number} pY
      * @param {Number} pVx - Horizontal speed
      * @param {Number} pVy - Vertical speed
      */
-    constructor(pSprite, pType, pX, pY, pVx, pVy) {
+    constructor(pSprite, pType, pX, pY, pVx, pVy, pSpecial = "DEFAULT") {
         this.sprite = pSprite;
         this.sprite.x = pX;
         this.sprite.y = pY;
@@ -16,7 +17,8 @@ class Bullet {
         this.vx = pVx;
         this.vy = pVy;
         this.x = pX;
-        this.y = pY
+        this.y = pY;
+        this.special = pSpecial
     }
 
     /**
@@ -48,7 +50,8 @@ class BulletManager {
     constructor() {
         this.bulletList = [];
         /** @type Audio */
-        this.sfxShoot = null
+        this.sfxShoot = null;
+        this.sfxHit = null
     }
 
     /**
@@ -57,7 +60,8 @@ class BulletManager {
      */
     load(pServiceManager) {
         this.serviceManager = pServiceManager;
-        this.sfxShoot = this.serviceManager.assetLoader.getAudio("vault/audio/sfx/sfx_laser1.ogg")
+        this.sfxShoot = this.serviceManager.assetLoader.getAudio("vault/audio/sfx/sfx_laser1.ogg");
+        this.sfxHit = this.serviceManager.assetLoader.getAudio("vault/audio/sfx/explode_touch.wav")
     }
 
     /**
@@ -67,17 +71,20 @@ class BulletManager {
      * @param {Number} pVx
      * @param {Number} pVy
      * @param {String} pType
+     * @param {String} pSpecial - Special behavior of the bullet
      */
-    add(pX, pY, pVx, pVy, pType) {
+    add(pX, pY, pVx, pVy, pType, pSpecial = "DEFAULT") {
         let sprite = null;
         let bullet = null;
         switch (pType) {
             case 'HERO':
-                sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png"));
-                bullet = new Bullet(sprite, pType, pX, pY - sprite.img.height / 2, pVx, pVy);
-                this.bulletList.push(bullet);
-                this.sfxShoot.currentTime = 0;
-                this.sfxShoot.play();
+                if (pSpecial === "DEFAULT") {
+                    sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png"));
+                    bullet = new Bullet(sprite, pType, pX, pY - sprite.img.height / 2, pVx, pVy);
+                    this.bulletList.push(bullet);
+                    this.sfxShoot.currentTime = 0;
+                    this.sfxShoot.play();
+                }
                 break;
             case "ENEMY":
                 sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen14.png"));
@@ -114,6 +121,8 @@ class BulletManager {
                     if (bullet.type === "HERO") {
                         if (isColliding(bullet.x, bullet.y, bullet.sprite.img.width, bullet.sprite.img.height, enemy.x, enemy.y, enemy.sprite.img.width, enemy.sprite.img.height)) {
                             enemy.hurt();
+                            this.sfxHit.currentTime = 0;
+                            this.sfxHit.play();
                             this.remove(bullet)
                         }
                     }
@@ -123,6 +132,8 @@ class BulletManager {
             if (bullet.type === "ENEMY") {
                 if (isColliding(bullet.x, bullet.y, bullet.sprite.img.width, bullet.sprite.img.height, this.serviceManager.hero.x, this.serviceManager.hero.y, this.serviceManager.hero.sprite.img.width, this.serviceManager.hero.sprite.img.height)) {
                     this.serviceManager.hero.hurt();
+                    this.sfxHit.currentTime = 0;
+                    this.sfxHit.play();
                     this.remove(bullet)
                 }
             }
