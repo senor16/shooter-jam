@@ -5,8 +5,15 @@ class SceneGame {
      */
     constructor(pAssetLoader) {
         this.serviceManager = new ServiceManager();
-        this.serviceManager.setBulletManager = new BulletManager();
         this.serviceManager.setAssetLoader = pAssetLoader;
+    }
+
+    /**
+     * Initialise the scene
+     */
+    load() {
+        this.serviceManager.setBulletManager = new BulletManager();
+        this.serviceManager.bulletManager.load(this.serviceManager);
 
         let backgroundImage = this.serviceManager.assetLoader.getImage("vault/images/Backgrounds/back.png");
         this.serviceManager.setBackground = new Background(backgroundImage, 1);
@@ -14,8 +21,11 @@ class SceneGame {
         let heroSpr = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/playerShip3_green.png"));
         let heroY = getGameHeight() / 2 - heroSpr.img.height / 2;
         this.serviceManager.setHero = new Hero(heroSpr, 5, heroY, 4);
+        this.serviceManager.hero.load(this.serviceManager);
 
         this.serviceManager.setWaveManager = new WaveManager();
+        this.serviceManager.waveManager.load(this.serviceManager);
+
         let imgCasual = this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Enemies/enemyGreen1.png");
         let wave1 = new Wave(getGameWidth() + 200, getGameWidth() + 100, 10, 1, 5, imgCasual, 'CASUAL', "ROW");
         let wave2 = new Wave(getGameWidth() * 1.5 + wave1.startDistance + imgCasual.width * wave1.count, getGameWidth() + 100, imgCasual.height * 2, 1, 5, imgCasual, 'CASUAL', "ROW");
@@ -41,15 +51,7 @@ class SceneGame {
         this.serviceManager.waveManager.add(wave9);
         this.serviceManager.waveManager.add(wave10);
         this.serviceManager.waveManager.add(waveBoss);
-    }
 
-    /**
-     * Initialise the scene
-     */
-    load() {
-        this.serviceManager.waveManager.load(this.serviceManager);
-        this.serviceManager.hero.load(this.serviceManager);
-        this.serviceManager.bulletManager.load(this.serviceManager)
 
     }
 

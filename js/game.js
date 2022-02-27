@@ -97,3 +97,22 @@ function draw(pCtx) {
 function angle(x1, y1, x2, y2) {
     return Math.atan2(y2 - y1, x2 - x1)
 }
+
+/**
+ * Check whether to sprites are colliding
+ * Sprite one
+ * @param {number} x1 - x coordinates
+ * @param {number} y1 - y coordinates
+ * @param {number} w1 - width
+ * @param {number} h1 - height
+ * Sprite two
+ * @param {number} x2 - x coordinates
+ * @param {number} y2 - y coordinates
+ * @param {number} w2 - width
+ * @param {number} h2 - height
+ * @returns {boolean}
+ */
+function isColliding(x1, y1, w1, h1, x2, y2, w2, h2) {
+    let col = x1 < x2 + w2 && x2 < x1 + h1 && y1 < y2 + h2 && y2 < y1 + h1;
+    return col
+}

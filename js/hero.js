@@ -11,10 +11,12 @@ class Hero {
         this.y = pY;
         this.vx = 0;
         this.vy = 0;
+        this.died = false;
         /** @type Sprite*/
         this.sprite = pSprite;
-        this.sprite.x=pX
-        this.sprite.y=pY
+        this.lives = 50;
+        this.sprite.x = pX;
+        this.sprite.y = pY;
         this.speed = pSpeed;
         this.up = false;
         this.right = false;
@@ -83,11 +85,24 @@ class Hero {
         }
     }
 
+
+    /**
+     * Inflict damage to the when fired on
+     */
+    hurt() {
+        this.lives -= 1;
+        if (this.lives <= 0) {
+            this.died = true
+        }
+    }
+
     /**
      * Update the hero state
      * @param {Number} dt - Deta time
      */
     update(dt) {
+        if (this.died)
+            return;
         // Move the player
         this.vx = 0;
         this.vy = 0;
@@ -102,13 +117,13 @@ class Hero {
         if (this.shoot) {
             this.shootTimer -= dt;
             if (this.shootTimer <= 0) {
-                this.serviceManager.bulletManager.add(this.x + this.sprite.img.width, this.y + this.sprite.img.height / 2, 6    , 0, 'FRIENDLY');
+                this.serviceManager.bulletManager.add(this.x + this.sprite.img.width, this.y + this.sprite.img.height / 2, 6, 0, 'HERO');
                 this.shootTimer = this.shootTimerMax;
             }
         }
 
-        this.x += this.vx;
-        this.y += this.vy;
+        this.x += this.vx * 60 * dt;
+        this.y += this.vy * 60 * dt;
         this.sprite.x = this.x;
         this.sprite.y = this.y;
     }
@@ -119,7 +134,11 @@ class Hero {
      * @param {CanvasRenderingContext2D} pCtx - The context used to draw in the canvas
      */
     draw(pCtx) {
+        if (this.died)
+            return;
         this.sprite.draw(pCtx);
+        pCtx.fillText(this.lives, this.x + this.sprite.img.width + 10, this.y + 20)
+
     }
 
 

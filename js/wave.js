@@ -12,24 +12,25 @@ class Enemy {
         this.y = pY;
         this.type = pType;
         this.sprite = pSprite;
-        this.sprite.x=pX
-        this.sprite.y=pY
+        this.sprite.x = pX;
+        this.sprite.y = pY;
         this.pendingDelay = pDelay;
         this.timer = 0;
-        this.shooTimerMax = 1;
-        this.active = false;
-        /** @type ServiceManager}*/
+        this.shooTimerMax = 2;
+        this.died = false;
+        this.active = false
+        /** @type ServiceManager*/
         this.serviceManager = null;
         switch (pType) {
             case 'CASUAL':
                 this.vx = -2;
                 this.vy = 0;
-                this.life = 2;
+                this.lives = 2;
                 break;
             case 'BOSS':
                 this.vx = -4;
                 this.vy = 0;
-                this.life = 20;
+                this.lives = 20;
                 break;
         }
     }
@@ -40,6 +41,16 @@ class Enemy {
      */
     load(pServiceManager) {
         this.serviceManager = pServiceManager
+    }
+
+    /**
+     * Inflict damage to an enemy when fired on
+     */
+    hurt() {
+        this.lives -= 1;
+        if (this.lives <= 0) {
+            this.died = true
+        }
     }
 
     /**
@@ -56,8 +67,8 @@ class Enemy {
             return
         }
         this.timer -= dt;
-        this.x += this.vx;
-        this.y += this.vy;
+        this.x += this.vx * 60 * dt;
+        this.y += this.vy * 60 * dt;
         this.sprite.x = this.x;
         this.sprite.y = this.y;
 
@@ -78,7 +89,8 @@ class Enemy {
     draw(pCtx) {
         if (!this.active)
             return;
-        this.sprite.draw(pCtx)
+        this.sprite.draw(pCtx);
+        pCtx.fillText(this.lives, this.x - 10, this.y + 20)
     }
 }
 
@@ -96,11 +108,13 @@ class Wave {
      */
     constructor(pStartDistance, pX, pY, pDelay, pCount, pImage, pType, pForm) {
         this.form = pForm;
-        this.enemylist = [];
+        this.enemyList = [];
         this.started = false;
         this.x = pX;
         this.y = pY;
         this.delay = pDelay;
+        /**@type ServiceManager */
+        this.serviceManager = null;
         this.count = pCount;
         this.type = pType;
         this.startDistance = pStartDistance;
@@ -115,13 +129,12 @@ class Wave {
         this.serviceManager = pServiceManager
     }
 
-
     /**
      * Add an enemy to the wave
      * @param {Enemy} pEnemy
      */
     add(pEnemy) {
-        this.enemylist.push(pEnemy)
+        this.enemyList.push(pEnemy)
     }
 
     /**
@@ -129,8 +142,8 @@ class Wave {
      * @param {Enemy} pEnemy
      */
     remove(pEnemy) {
-        let index = this.enemylist.indexOf(pEnemy);
-        this.enemylist.splice(index, 1)
+        let index = this.enemyList.indexOf(pEnemy);
+        this.enemyList.splice(index, 1)
     }
 
     /**
@@ -138,11 +151,15 @@ class Wave {
      * @param {Number} dt - Delta time
      */
     update(dt) {
-        for (let i = this.enemylist.length - 1; i >= 0; i--) {
-            let enemy = this.enemylist[i];
+        for (let i = this.enemyList.length - 1; i >= 0; i--) {
+            let enemy = this.enemyList[i];
             enemy.update(dt);
-            // Remove an enemy when his life jauge is gone
-            if (enemy.life <= 0) {
+            if (isColliding(enemy.x, enemy.y, enemy.sprite.img.width, enemy.sprite.img.height, this.serviceManager.hero.x, this.serviceManager.hero.y, this.serviceManager.hero.sprite.img.width, this.serviceManager.hero.sprite.img.height)) {
+                enemy.hurt();
+                this.serviceManager.hero.hurt()
+            }
+            // Remove the enemy when he died
+            if (enemy.died) {
                 this.remove(enemy)
             }
         }
@@ -153,7 +170,7 @@ class Wave {
      * @param {CanvasRenderingContext2D} pCtx - The context used to draw in the canvas
      */
     draw(pCtx) {
-        this.enemylist.forEach(enemy => {
+        this.enemyList.forEach(enemy => {
             enemy.draw(pCtx)
         })
     }
@@ -181,6 +198,7 @@ class WaveManager {
      * Add a wave to the list
      */
     add(pWave) {
+        pWave.load(this.serviceManager);
         this.waveList.push(pWave)
     }
 
