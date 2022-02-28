@@ -171,7 +171,7 @@ class Wave {
                 this.remove(enemy)
             }
 
-            if (enemy.x < 0) {
+            if (enemy.x + enemy.sprite.img.width < 0) {
                 this.remove(enemy)
             }
         }

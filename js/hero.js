@@ -2,11 +2,12 @@ class Hero {
     /**
      * Create an instance of Hero
      * @param {Sprite} pSprite
+     * @param {Sprite} pIcon
      * @param {Number} pX
      * @param {Number} pY
      * @param {Number} pSpeed
      */
-    constructor(pSprite, pX = 0, pY = 0, pSpeed = 0) {
+    constructor(pSprite, pIcon, pX = 0, pY = 0, pSpeed = 0) {
         this.x = pX;
         this.y = pY;
         this.vx = 0;
@@ -14,9 +15,10 @@ class Hero {
         this.died = false;
         /** @type Sprite*/
         this.sprite = pSprite;
-        this.energie = 10;
+        this.icon = pIcon;
         this.lives = 5;
-        this.maxEnergie = 50;
+        this.maxEnergie = 20;
+        this.energie = this.maxEnergie;
         this.sprite.x = pX;
         this.sprite.y = pY;
         this.speed = pSpeed;
@@ -143,16 +145,25 @@ class Hero {
         this.sprite.y = this.y;
     }
 
+    drawLives(pCtx) {
+        let imgX = this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/UI/numeralX.png");
+        pCtx.drawImage(imgX, this.icon.x + this.icon.img.width + 5, this.icon.y + 5);
+        let imgLife = this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/UI/numeral" + this.lives + ".png");
+        pCtx.drawImage(imgLife, this.icon.x + this.icon.img.width + imgX.width + 10, this.icon.y + 5)
+
+    }
 
     /**
      * Draw the hero
      * @param {CanvasRenderingContext2D} pCtx - The context used to draw in the canvas
      */
     draw(pCtx) {
-        if (this.died)
-            return;
-        this.sprite.draw(pCtx);
-        pCtx.fillText(this.energie, this.x + this.sprite.img.width + 10, this.y + 20)
+        this.drawLives(pCtx);
+        this.icon.draw(pCtx);
+        pCtx.fillText(this.energie, this.x + this.sprite.img.width + 10, this.y + 20);
+        if (!this.died) {
+            this.sprite.draw(pCtx);
+        }
 
     }
 

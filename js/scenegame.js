@@ -18,9 +18,10 @@ class SceneGame {
         let backgroundImage = this.serviceManager.assetLoader.getImage("vault/images/Backgrounds/back.png");
         this.serviceManager.setBackground = new Background(backgroundImage, 1);
 
+        let heroIcon = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/UI/playerLife3_green.png"), 25, 25);
         let heroSpr = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/playerShip3_green.png"));
         let heroY = getGameHeight() / 2 - heroSpr.img.height / 2;
-        this.serviceManager.setHero = new Hero(heroSpr, 5, heroY, 4);
+        this.serviceManager.setHero = new Hero(heroSpr, heroIcon, 5, heroY, 4);
         this.serviceManager.hero.load(this.serviceManager);
 
         this.serviceManager.setWaveManager = new WaveManager();

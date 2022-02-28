@@ -49,6 +49,18 @@ function load() {
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen4.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen14.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Parts/cockpitGreen_1.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral0.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral1.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral2.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral3.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral4.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral5.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral6.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral7.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral8.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral9.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeralX.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/UI/playerLife3_green.png");
     // Load audio
     assetLoader.addAudio("vault/audio/sfx/sfx_laser1.ogg");
     assetLoader.addAudio("vault/audio/sfx/explode_touch.wav");
