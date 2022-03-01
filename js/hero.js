@@ -28,7 +28,7 @@ class Hero {
         this.left = false;
         this.shoot = false;
         this.shootTimer = 0;
-        this.shootTimerMax = .3;
+        this.shootTimerMax = .1;
         this.pull = false
     }
 

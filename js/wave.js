@@ -16,21 +16,25 @@ class Enemy {
         this.sprite.y = pY;
         this.pendingDelay = pDelay;
         this.timer = 0;
-        this.shooTimerMax = 2;
+        this.shooTimerMax = 1;
         this.died = false;
         this.active = false;
+        this.appeared = false;
         /** @type ServiceManager*/
         this.serviceManager = null;
         switch (pType) {
             case 'CASUAL':
-                this.vx = -2;
+                this.vx = -3;
                 this.vy = 0;
-                this.energie = 2;
+                this.maxEnergie = 4;
+                this.energie = this.maxEnergie;
                 break;
             case 'BOSS':
-                this.vx = -4;
-                this.vy = 0;
-                this.energie = 20;
+                this.vx = -3;
+                this.vy = -3;
+                this.maxEnergie = 50;
+                this.energie = this.maxEnergie;
+                this.shooTimerMax = 1;
                 break;
         }
     }
@@ -54,6 +58,16 @@ class Enemy {
     }
 
     /**
+     * Inflict tiny damage to an enemy when fired on
+     */
+    hurtSlowly() {
+        this.energie -= .1;
+        if (this.energie <= 0) {
+            this.died = true
+        }
+    }
+
+    /**
      * Update the wave
      * @param {Number} dt - Delta time
      */
@@ -66,19 +80,54 @@ class Enemy {
             }
             return
         }
+
+        /**
+         *  Specificity of the boss
+         */
+        if (this.type === "BOSS" && this.appeared) {
+            // Make the boss move in diagonal
+            if (this.x < getGameWidth() / 2 || this.x > getGameWidth() - this.sprite.img.width) {
+                this.vx = -this.vx;
+                if (this.x < getGameWidth() / 2)
+                    this.x = getGameWidth() / 2;
+                if (this.x > getGameWidth() - this.sprite.img.width)
+                    this.x = getGameWidth() - this.sprite.img.width
+            }
+            if (this.y < 0 || this.y > getGameHeight() - this.sprite.img.height) {
+                this.vy = -this.vy;
+                if (this.y < 0)
+                    this.y = 0;
+                if (this.y > getGameHeight() - this.sprite.img.height)
+                    this.y = getGameHeight() - this.sprite.img.height
+            }
+
+        }
+
         this.timer -= dt;
         this.x += this.vx * 60 * dt;
         this.y += this.vy * 60 * dt;
         this.sprite.x = this.x;
         this.sprite.y = this.y;
 
+        // Check if the enemy is visible on the screen
+        if (!this.appeared && this.x + this.sprite.img.width <= getGameWidth())
+            this.appeared = true;
+
         // Shoot at the hero
         if (this.timer <= 0) {
             this.timer = this.shooTimerMax;
-            let angl = angle(this.x, this.y, this.serviceManager.hero.x + this.serviceManager.hero.sprite.img.width / 2, this.serviceManager.hero.y);
-            let vx = 10 * Math.cos(angl);
-            let vy = 10 * Math.sin(angl);
-            this.serviceManager.bulletManager.add(this.x, this.y + this.sprite.img.height / 2, vx, vy, "ENEMY")
+            if (this.type === "BOSS") {
+                for (let i = 0; i < 361; i += 10) {
+                    let vx = 10 * Math.cos(i);
+                    let vy = 10 * Math.sin(i);
+                    this.serviceManager.bulletManager.add(this.x, this.y + this.sprite.img.height / 2, vx, vy, "ENEMY")
+                }
+            } else {
+                let angl = angle(this.x, this.y, this.serviceManager.hero.x + this.serviceManager.hero.sprite.img.width / 2, this.serviceManager.hero.y);
+                let vx = 10 * Math.cos(angl);
+                let vy = 10 * Math.sin(angl);
+                this.serviceManager.bulletManager.add(this.x, this.y + this.sprite.img.height / 2, vx, vy, "ENEMY")
+            }
         }
     }
 
@@ -90,7 +139,14 @@ class Enemy {
         if (!this.active)
             return;
         this.sprite.draw(pCtx);
-        pCtx.fillText(this.energie, this.x - 10, this.y + 20)
+        // Draw Energie level of the boss
+        if (this.type === "BOSS") {
+            pCtx.strokeStyle = "#65804F";
+            pCtx.strokeRect(this.x, this.y + this.sprite.img.height + 10, this.sprite.img.width * .9, 10);
+            pCtx.fillStyle = "#65804F";
+            let width = this.sprite.img.width * (this.energie / this.maxEnergie);
+            pCtx.fillRect(this.x + this.sprite.img.width * .9 - width * .9, this.y + this.sprite.img.height + 10, width * .9, 10)
+        }
     }
 }
 
@@ -249,7 +305,7 @@ class WaveManager {
                                 y = pWave.y;
                             }
                             enemy = new Enemy(sprite, pWave.type, x, y, pWave.delay / 1.5 * i);
-                            y += sprite.img.height;
+                            y += sprite.img.height + 5;
                             break;
                         case "COLUMN":
                             if (y + sprite.img.height > getGameHeight()) {
@@ -257,7 +313,7 @@ class WaveManager {
                                 col++;
                             }
                             enemy = new Enemy(sprite, pWave.type, pWave.x, y, pWave.delay * col);
-                            y += sprite.img.height + 5;
+                            y += sprite.img.height + 10;
                             break;
                     }
                     if (enemy !== null) {
@@ -294,7 +350,7 @@ class WaveManager {
             if (this.serviceManager.background.distance >= wave.startDistance && !wave.started) {
                 this.startWave(wave)
             }
-            if (this.currentWave !== null && this.currentWave.empty() && (i === 1 || i === this.currentWave.enemyList.length)) {
+            if (this.waveList.length > 0 && this.currentWave !== null && this.currentWave.empty() && (i === 1 || i === this.currentWave.enemyList.length)) {
                 wave.x += getGameWidth() / 2;
                 this.startWave(wave)
             }
@@ -302,8 +358,9 @@ class WaveManager {
 
         if (this.currentWave !== null)
             this.currentWave.update(dt);
-        // console.log(this.waveList.length)
-
+        if(this.waveList.length<=0){
+            this.serviceManager.gameWon=true
+        }
     }
 
     /**

@@ -46,9 +46,12 @@ function load() {
     assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png");
     assetLoader.addImage("vault/images/Sprites/PNG/playerShip3_green.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen1.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen2.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen3.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen4.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen14.png");
-    assetLoader.addImage("vault/images/Sprites/PNG/Parts/cockpitGreen_1.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen15.png");
+    assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen16.png");
     assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral0.png");
     assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral1.png");
     assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral2.png");
@@ -64,6 +67,9 @@ function load() {
     // Load audio
     assetLoader.addAudio("vault/audio/sfx/sfx_laser1.ogg");
     assetLoader.addAudio("vault/audio/sfx/explode_touch.wav");
+    // Load Fonts
+    assetLoader.addFont("Kenney Future","vault/fonts/Kenney Future.ttf")
+    assetLoader.addFont("Kenney Future Narrow","vault/fonts/Kenney Future Narrow.ttf")
     assetLoader.start(startGame);
 
 

@@ -19,16 +19,16 @@ class Bullet {
         this.x = pX;
         this.y = pY;
         this.isFilled = false;
-        this.maxEnemiesInRange = 3;
+        this.maxEnemiesInRange = 4;
         this.enemiesInRange = [];
-        this.radius = 120;
+        this.radius = 100;
         this.special = pSpecial
     }
 
     hurtEnemiesInRange() {
         for (let k = this.enemiesInRange.length - 1; k >= 0; k--) {
             let enemy = this.enemiesInRange[k];
-            enemy.hurt();
+            enemy.hurtSlowly();
             if (enemy.died) {
                 this.enemiesInRange.splice(k, 1)
             }
@@ -108,7 +108,7 @@ class BulletManager {
         switch (pType) {
             case 'HERO':
                 if (pSpecial === "PULL") {
-                    sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Parts/cockpitGreen_1.png"));
+                    sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen16.png"));
                 } else {
                     sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png"));
                 }
@@ -118,7 +118,7 @@ class BulletManager {
                 this.sfxShoot.play();
                 break;
             case "ENEMY":
-                sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen14.png"));
+                sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen15.png"));
                 bullet = new Bullet(sprite, pType, pX, pY - sprite.img.height / 2, pVx, pVy);
                 this.bulletList.push(bullet);
                 break;
@@ -156,7 +156,7 @@ class BulletManager {
                                 let dist = distance(bullet.x + bullet.sprite.img.width / 2, bullet.y + bullet.sprite.img.height / 2, enemy.x + enemy.sprite.img.width / 2, enemy.y + enemy.sprite.img.height / 2);
                                 if (dist <= bullet.radius) {
                                     // Save enemies in order to attract them
-                                    if (!bullet.enemiesInRange.includes(enemy))
+                                    if (!bullet.enemiesInRange.includes(enemy) && enemy.type!== "BOSS")
                                         bullet.enemiesInRange.push(enemy);
                                     if (bullet.enemiesInRange.length >= bullet.maxEnemiesInRange)
                                         bullet.isFilled = true

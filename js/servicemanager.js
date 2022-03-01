@@ -12,7 +12,10 @@ class ServiceManager {
         /** @type Background*/
         this.background = null;
         /** @type WaveManager */
-        this.waveManager = null
+        this.waveManager = null;
+        this.gameWon = false;
+        this.gameFailed = false
+        this.playerDied = false
     }
 
     /**
