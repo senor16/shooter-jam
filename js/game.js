@@ -1,6 +1,6 @@
 let assetLoader;
 let start;
-let sceneGame, sceneHome, sceneGameOver;
+let sceneGame, sceneHome, sceneGameOver, sceneVictory;
 let serviceManager;
 
 
@@ -13,9 +13,11 @@ function startGame() {
     serviceManager.setSceneGame = sceneGame;
     sceneHome = new SceneHome(serviceManager);
     sceneGameOver = new SceneGameHover(serviceManager);
+    sceneVictory = new SceneVictory(serviceManager);
     sceneGame.load();
     sceneGameOver.load();
-    sceneHome.load()
+    sceneHome.load();
+    sceneVictory.load()
 
 }
 
@@ -26,7 +28,7 @@ function startGame() {
 function keyDown(pKey) {
     pKey.preventDefault();
     // console.log("Key down "  + pKey.code)
-    if (this.serviceManager.startGame)
+    if (serviceManager.startGame)
         sceneGame.keyDown(pKey.code)
 }
 
@@ -39,6 +41,8 @@ function keyUp(pKey) {
     // console.log("Key up " + pKey.code)
     if (serviceManager.gameOver) {
         sceneGameOver.keyUp(pKey.code)
+    } else if (serviceManager.victory) {
+        sceneVictory.keyUp(pKey.code)
     } else {
         if (serviceManager.startGame) {
             sceneGame.keyUp(pKey.code);
@@ -103,6 +107,8 @@ function update(dt) {
     }
     if (serviceManager.gameOver) {
         sceneGameOver.update(dt);
+    } else if (serviceManager.victory) {
+        sceneVictory.update(dt)
     } else {
         if (serviceManager.startGame)
             sceneGame.update(dt);
@@ -129,6 +135,8 @@ function draw(pCtx) {
     }
     if (serviceManager.gameOver) {
         sceneGameOver.draw(pCtx);
+    } else if (serviceManager.victory) {
+        sceneVictory.draw(pCtx)
     } else {
         if (serviceManager.startGame)
             sceneGame.draw(pCtx);

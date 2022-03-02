@@ -359,7 +359,7 @@ class WaveManager {
         if (this.currentWave !== null)
             this.currentWave.update(dt);
         if(this.waveList.length<=0){
-            this.serviceManager.gameWon=true
+            this.serviceManager.victory=true
         }
     }
 

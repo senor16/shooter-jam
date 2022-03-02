@@ -14,10 +14,10 @@ class ServiceManager {
         /** @type WaveManager */
         this.waveManager = null;
         /**@type SceneGame*/
-        this.sceneGame = null
+        this.sceneGame = null;
         this.victory = false;
-        this.gameOver = false
-        this.startGame=false
+        this.gameOver = false;
+        this.startGame = false
     }
 
     /**
@@ -34,7 +34,9 @@ class ServiceManager {
      */
     set setAssetLoader(pAssetLoader) {
         this.assetLoader = pAssetLoader
-    } /**
+    }
+
+    /**
      * Set scene game
      * @param {SceneGame} pSceneGame
      */
