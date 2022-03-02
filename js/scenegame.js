@@ -32,13 +32,13 @@ class SceneGame {
         let wave1 = new Wave(getGameWidth(), getGameWidth() + 100, 10, .4, 6, imgRow, 'CASUAL', "ROW");
         let wave2 = new Wave(getGameWidth() * 1.5 + wave1.startDistance + imgRow.width * wave1.count, getGameWidth() + 100, imgRow.height * 2, .4, 6, imgRow, 'CASUAL', "ROW");
         let wave3 = new Wave(getGameWidth() * 1.5 + wave2.startDistance + imgRow.width * wave2.count, getGameWidth() + 100, imgRow.height * 4, .4, 6, imgRow, 'CASUAL', 'ROW');
-        let wave4 = new Wave(getGameWidth() * 1.5 + wave3.startDistance + imgRow.width * wave3.count, getGameWidth() + 100, 10, .4, 6, imgColumn, 'CASUAL', 'COLUMN');
+        let wave4 = new Wave(getGameWidth() * 1.5 + wave3.startDistance + imgRow.width * wave3.count, getGameWidth() + 100, 4, .4, 6, imgColumn, 'CASUAL', 'COLUMN');
         let wave5 = new Wave(getGameWidth() * 1.5 + wave4.startDistance + imgCascade.width * wave4.count, getGameWidth() + 100, 10, .4, 6, imgCascade, 'CASUAL', 'CASCADE');
-        let wave6 = new Wave(getGameWidth() * 1.5 + wave5.startDistance + imgCascade.width * wave5.count, getGameWidth() + 100, 10, .4, 12, imgColumn, 'CASUAL', 'COLUMN');
+        let wave6 = new Wave(getGameWidth() * 1.5 + wave5.startDistance + imgCascade.width * wave5.count, getGameWidth() + 100, 4, .4, 12, imgColumn, 'CASUAL', 'COLUMN');
         let wave7 = new Wave(getGameWidth() * 1.5 + wave6.startDistance + imgColumn.width * wave6.count, getGameWidth() + 100, 10, .4, 12, imgCascade, 'CASUAL', 'CASCADE');
-        let wave8 = new Wave(getGameWidth() * 1.5 + wave7.startDistance + imgCascade.width * wave7.count, getGameWidth() + 100, 10, .4, 18, imgColumn, 'CASUAL', 'COLUMN');
+        let wave8 = new Wave(getGameWidth() * 1.5 + wave7.startDistance + imgCascade.width * wave7.count, getGameWidth() + 100, 4, .4, 18, imgColumn, 'CASUAL', 'COLUMN');
         let wave9 = new Wave(getGameWidth() * 1.5 + wave8.startDistance + imgColumn.width * wave8.count, getGameWidth() + 100, imgRow.height * 4, .4, 10, imgRow, 'CASUAL', 'ROW');
-        let wave10 = new Wave(getGameWidth() * 1.5 + wave9.startDistance + imgRow.width * wave9.count, getGameWidth() + 100, 10, .4, 30, imgColumn, 'CASUAL', 'COLUMN');
+        let wave10 = new Wave(getGameWidth() * 1.5 + wave9.startDistance + imgRow.width * wave9.count, getGameWidth() + 100, 4, .4, 30, imgColumn, 'CASUAL', 'COLUMN');
         let imgBoss = this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Enemies/enemyGreen4.png");
         let waveBoss = new Wave(getGameWidth() * 1.5 + wave10.startDistance + imgRow.width * wave10.count / 1.5, getGameWidth() + 100, getGameHeight() / 2 - imgBoss.height / 2, .4, 1, imgBoss, 'BOSS', 'ROW');
 

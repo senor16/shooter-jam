@@ -305,7 +305,7 @@ class WaveManager {
                                 y = pWave.y;
                             }
                             enemy = new Enemy(sprite, pWave.type, x, y, pWave.delay / 1.5 * i);
-                            y += sprite.img.height + 5;
+                            y += sprite.img.height + 2;
                             break;
                         case "COLUMN":
                             if (y + sprite.img.height > getGameHeight()) {
@@ -313,7 +313,7 @@ class WaveManager {
                                 col++;
                             }
                             enemy = new Enemy(sprite, pWave.type, pWave.x, y, pWave.delay * col);
-                            y += sprite.img.height + 10;
+                            y += sprite.img.height + 4;
                             break;
                     }
                     if (enemy !== null) {
