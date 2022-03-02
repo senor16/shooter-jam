@@ -1,4 +1,4 @@
-class SceneHome {
+class SceneGameHover {
     /**
      * Create an instance of SceneHome
      * @param {ServiceManager} pServiceManager
@@ -11,12 +11,8 @@ class SceneHome {
      * Load the scene
      */
     load() {
-        this.title = "SHOOTER JAM";
-        this.author = "By Sesso Kosga";
-        this.email = "kosgasesso@gmail.com";
-        this.start = "Hit Enter to start";
-
-
+        this.title = "GAME OVER";
+        this.start = "Hit Enter to back Home";
     }
 
     /**
@@ -25,8 +21,8 @@ class SceneHome {
      */
     keyUp(pCode) {
         if (pCode === "Enter") {
-            this.serviceManager.startGame = true
-            this.serviceManager.sceneGame.load()
+            this.serviceManager.startGame = false
+            this.serviceManager.gameOver=false
         }
     }
 
@@ -50,16 +46,6 @@ class SceneHome {
         pCtx.font = "55px Kenney Future";
         let titleW = pCtx.measureText(this.title).width;
         pCtx.fillText(this.title, (getGameWidth() - titleW) / 2, 80);
-
-        // Author
-        pCtx.font = "35px Kenney Future Narrow";
-        let authorW = pCtx.measureText(this.author).width;
-        pCtx.fillText(this.author, (getGameWidth() - authorW) / 2, 160);
-
-        // Email
-        pCtx.font = "20px Kenney Future Narrow";
-        let emailW = pCtx.measureText(this.email).width;
-        pCtx.fillText(this.email, (getGameWidth() - emailW) / 2, 190);
 
         // Start
         let img = this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/playerShip3_green.png");

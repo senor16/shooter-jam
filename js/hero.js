@@ -116,8 +116,11 @@ class Hero {
      * @param {Number} dt - Deta time
      */
     update(dt) {
-        if (this.died)
+        if (this.died) {
+            this.serviceManager.gameOver = true;
+            this.serviceManager.startGame=false
             return;
+        }
         // Move the player
         this.vx = 0;
         this.vy = 0;

@@ -1,6 +1,6 @@
 let assetLoader;
 let start;
-let sceneGame, sceneHome;
+let sceneGame, sceneHome, sceneGameOver;
 let serviceManager;
 
 
@@ -10,8 +10,11 @@ let serviceManager;
 function startGame() {
     start = true;
     sceneGame = new SceneGame(serviceManager);
+    serviceManager.setSceneGame = sceneGame;
     sceneHome = new SceneHome(serviceManager);
+    sceneGameOver = new SceneGameHover(serviceManager);
     sceneGame.load();
+    sceneGameOver.load();
     sceneHome.load()
 
 }
@@ -23,7 +26,8 @@ function startGame() {
 function keyDown(pKey) {
     pKey.preventDefault();
     // console.log("Key down "  + pKey.code)
-    sceneGame.keyDown(pKey.code)
+    if (this.serviceManager.startGame)
+        sceneGame.keyDown(pKey.code)
 }
 
 /**
@@ -33,8 +37,14 @@ function keyDown(pKey) {
 function keyUp(pKey) {
     pKey.preventDefault();
     // console.log("Key up " + pKey.code)
-    sceneGame.keyUp(pKey.code)
-    sceneHome.keyUp(pKey.code)
+    if (serviceManager.gameOver) {
+        sceneGameOver.keyUp(pKey.code)
+    } else {
+        if (serviceManager.startGame) {
+            sceneGame.keyUp(pKey.code);
+        } else
+            sceneHome.keyUp(pKey.code);
+    }
 }
 
 // The game loop
@@ -91,10 +101,15 @@ function update(dt) {
     if (!start) {
         return
     }
-    if (serviceManager.startGame)
-        sceneGame.update(dt);
-    else
-        sceneHome.update(dt)
+    if (serviceManager.gameOver) {
+        sceneGameOver.update(dt);
+    } else {
+        if (serviceManager.startGame)
+            sceneGame.update(dt);
+        else
+            sceneHome.update(dt)
+    }
+
 
 }
 
@@ -112,10 +127,15 @@ function draw(pCtx) {
         pCtx.fillRect(0, 0, 100 * ratio, 20);
         return
     }
-    if (serviceManager.startGame)
-        sceneGame.draw(pCtx);
-    else
-        sceneHome.draw(pCtx)
+    if (serviceManager.gameOver) {
+        sceneGameOver.draw(pCtx);
+    } else {
+        if (serviceManager.startGame)
+            sceneGame.draw(pCtx);
+        else
+            sceneHome.draw(pCtx)
+    }
+
 }
 
 /**
