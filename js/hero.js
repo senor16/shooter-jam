@@ -160,7 +160,6 @@ class Hero {
     draw(pCtx) {
         this.drawLives(pCtx);
         this.icon.draw(pCtx);
-        pCtx.fillText(this.energie, this.x + this.sprite.img.width + 10, this.y + 20);
         if (!this.died) {
             this.sprite.draw(pCtx);
         }

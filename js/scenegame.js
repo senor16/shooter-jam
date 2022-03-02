@@ -1,11 +1,10 @@
 class SceneGame {
     /**
      * Create an instance of SceneGame
-     * @param {AssetLoader} pAssetLoader
+     * @param {ServiceManager} pServiceManager
      */
-    constructor(pAssetLoader) {
-        this.serviceManager = new ServiceManager();
-        this.serviceManager.setAssetLoader = pAssetLoader;
+    constructor(pServiceManager) {
+        this.serviceManager = pServiceManager
     }
 
     /**

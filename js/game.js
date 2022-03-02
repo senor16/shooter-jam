@@ -1,6 +1,7 @@
 let assetLoader;
 let start;
-let sceneGame;
+let sceneGame, sceneHome;
+let serviceManager;
 
 
 /**
@@ -8,8 +9,10 @@ let sceneGame;
  */
 function startGame() {
     start = true;
-    sceneGame = new SceneGame(assetLoader);
-    sceneGame.load()
+    sceneGame = new SceneGame(serviceManager);
+    sceneHome = new SceneHome(serviceManager);
+    sceneGame.load();
+    sceneHome.load()
 
 }
 
@@ -31,6 +34,7 @@ function keyUp(pKey) {
     pKey.preventDefault();
     // console.log("Key up " + pKey.code)
     sceneGame.keyUp(pKey.code)
+    sceneHome.keyUp(pKey.code)
 }
 
 // The game loop
@@ -39,9 +43,11 @@ function keyUp(pKey) {
  * Here is where initialisations are done
  */
 function load() {
+    assetLoader = new AssetLoader();
+    serviceManager = new ServiceManager();
+    serviceManager.setAssetLoader = assetLoader;
     start = false;
     // Load images
-    assetLoader = new AssetLoader();
     assetLoader.addImage("vault/images/Backgrounds/back.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png");
     assetLoader.addImage("vault/images/Sprites/PNG/playerShip3_green.png");
@@ -68,8 +74,8 @@ function load() {
     assetLoader.addAudio("vault/audio/sfx/sfx_laser1.ogg");
     assetLoader.addAudio("vault/audio/sfx/explode_touch.wav");
     // Load Fonts
-    assetLoader.addFont("Kenney Future","vault/fonts/Kenney Future.ttf")
-    assetLoader.addFont("Kenney Future Narrow","vault/fonts/Kenney Future Narrow.ttf")
+    assetLoader.addFont("Kenney Future", "vault/fonts/Kenney Future.ttf");
+    assetLoader.addFont("Kenney Future Narrow", "vault/fonts/Kenney Future Narrow.ttf");
     assetLoader.start(startGame);
 
 
@@ -85,7 +91,10 @@ function update(dt) {
     if (!start) {
         return
     }
-    sceneGame.update(dt)
+    if (serviceManager.startGame)
+        sceneGame.update(dt);
+    else
+        sceneHome.update(dt)
 
 }
 
@@ -99,11 +108,14 @@ function draw(pCtx) {
         let ratio = assetLoader.getRatio();
         pCtx.fillStyle = "rgb(255,255,255)";
         pCtx.fillRect(0, 0, 100, 20);
-        pCtx.fillStyle = "rgb(119,255,64)";
+        pCtx.fillStyle = "#71C937";
         pCtx.fillRect(0, 0, 100 * ratio, 20);
         return
     }
-    sceneGame.draw(pCtx)
+    if (serviceManager.startGame)
+        sceneGame.draw(pCtx);
+    else
+        sceneHome.draw(pCtx)
 }
 
 /**

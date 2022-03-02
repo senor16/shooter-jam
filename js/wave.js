@@ -231,7 +231,7 @@ class Wave {
                 this.remove(enemy)
             }
         }
-        console.log(this.enemyList.length)
+        // console.log(this.enemyList.length)
     }
 
     /**

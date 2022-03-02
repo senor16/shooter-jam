@@ -16,6 +16,7 @@ class ServiceManager {
         this.gameWon = false;
         this.gameFailed = false
         this.playerDied = false
+        this.startGame=false
     }
 
     /**
