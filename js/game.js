@@ -121,10 +121,12 @@ function draw(pCtx) {
     if (!start) {
         // Show a progress bar while assets are loading
         let ratio = assetLoader.getRatio();
-        pCtx.fillStyle = "rgb(255,255,255)";
-        pCtx.fillRect(0, 0, 100, 20);
+        pCtx.strokeStyle = "#71C937";
+        pCtx.strokeRect(200, 200, 200, 25);
         pCtx.fillStyle = "#71C937";
-        pCtx.fillRect(0, 0, 100 * ratio, 20);
+        pCtx.fillRect(200, 200, 200 * ratio, 25);
+        pCtx.font = "25px sans-serif"
+        pCtx.fillText("Loading...",210,180)
         return
     }
     if (serviceManager.gameOver) {
