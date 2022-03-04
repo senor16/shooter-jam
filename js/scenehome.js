@@ -25,18 +25,11 @@ class SceneHome {
      */
     keyUp(pCode) {
         if (pCode === "Enter") {
-            this.serviceManager.startGame = true
+            this.serviceManager.startGame = true;
             this.serviceManager.sceneGame.load()
         }
     }
 
-    /**
-     * Update the scene
-     * @param {Number} dt - Delta time
-     */
-    update(dt) {
-
-    }
 
     /**
      * Draw thw scene

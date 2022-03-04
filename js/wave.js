@@ -103,6 +103,7 @@ class Enemy {
 
         }
 
+        // Update enemy position
         this.timer -= dt;
         this.x += this.vx * 60 * dt;
         this.y += this.vy * 60 * dt;
@@ -116,6 +117,7 @@ class Enemy {
         // Shoot at the hero
         if (this.timer <= 0) {
             this.timer = this.shooTimerMax;
+            // Shoot behavior of the boss
             if (this.type === "BOSS") {
                 for (let i = 0; i < 361; i += 10) {
                     let vx = 10 * Math.cos(i);
@@ -123,6 +125,7 @@ class Enemy {
                     this.serviceManager.bulletManager.add(this.x, this.y + this.sprite.img.height / 2, vx, vy, "ENEMY")
                 }
             } else {
+                // Shoot behavior of casual enemies
                 let angl = angle(this.x, this.y, this.serviceManager.hero.x + this.serviceManager.hero.sprite.img.width / 2, this.serviceManager.hero.y);
                 let vx = 10 * Math.cos(angl);
                 let vy = 10 * Math.sin(angl);
@@ -139,7 +142,7 @@ class Enemy {
         if (!this.active)
             return;
         this.sprite.draw(pCtx);
-        // Draw Energie level of the boss
+        // Draw Energy level of the boss using a progress bar
         if (this.type === "BOSS") {
             pCtx.strokeStyle = "#65804F";
             pCtx.strokeRect(this.x, this.y + this.sprite.img.height + 10, this.sprite.img.width * .9, 10);
@@ -218,6 +221,7 @@ class Wave {
         for (let i = this.enemyList.length - 1; i >= 0; i--) {
             let enemy = this.enemyList[i];
             enemy.update(dt);
+            // Inflict damage to both enemy and hero when they collide
             if (isColliding(enemy.x, enemy.y, enemy.sprite.img.width, enemy.sprite.img.height, this.serviceManager.hero.x, this.serviceManager.hero.y, this.serviceManager.hero.sprite.img.width, this.serviceManager.hero.sprite.img.height)) {
                 enemy.hurt();
                 this.serviceManager.hero.hurt()
@@ -226,12 +230,11 @@ class Wave {
             if (enemy.died) {
                 this.remove(enemy)
             }
-
+            // Remove the enemy when he ge out of the screen
             if (enemy.x + enemy.sprite.img.width < 0) {
                 this.remove(enemy)
             }
         }
-        // console.log(this.enemyList.length)
     }
 
     /**
@@ -289,6 +292,7 @@ class WaveManager {
         if (this.currentWave !== null) {
             this.stopWave(this.currentWave);
         }
+        // Load enemies in thewave
         let y = pWave.y, x = pWave.x, col = 0;
         for (let i = 0; i < pWave.count; i++) {
             let sprite = new Sprite(pWave.image);
@@ -345,6 +349,7 @@ class WaveManager {
      * @param {Number} dt - Delta time
      */
     update(dt) {
+        // Start the next wave
         for (let i = this.waveList.length - 1; i >= 0; i--) {
             let wave = this.waveList[i];
             if (this.serviceManager.background.distance >= wave.startDistance && !wave.started) {
@@ -356,10 +361,13 @@ class WaveManager {
             }
         }
 
+        // Update the current wave
         if (this.currentWave !== null)
             this.currentWave.update(dt);
-        if(this.waveList.length<=0){
-            this.serviceManager.victory=true
+
+        // Check if the hero has won
+        if (this.waveList.length <= 0) {
+            this.serviceManager.victory = true
         }
     }
 

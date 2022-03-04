@@ -1,17 +1,7 @@
 let canvas = document.getElementById("canvas");
 let context = canvas.getContext('2d');
 let oldTime = 0;
-let fps = 0;
 
-/**
- * Show FPS
- */
-function showFPS() {
-    context.fillStyle = "White";
-    context.font = "normal 16pt Arial";
-
-    context.fillText(fps + " fps", 10, 20);
-}
 
 /**
  * Run the game
@@ -20,7 +10,6 @@ function showFPS() {
 function run(time) {
     requestAnimationFrame(run);
     let dt = (time - oldTime) / 1000;
-    fps = 1 / dt;
     oldTime = time;
     update(dt);
     context.clearRect(0, 0, canvas.width, canvas.height);

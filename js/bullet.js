@@ -25,6 +25,9 @@ class Bullet {
         this.special = pSpecial
     }
 
+    /**
+     * Hurt enemies in the range of the special bullet
+     */
     hurtEnemiesInRange() {
         for (let k = this.enemiesInRange.length - 1; k >= 0; k--) {
             let enemy = this.enemiesInRange[k];
@@ -109,10 +112,11 @@ class BulletManager {
             case 'HERO':
                 if (pSpecial === "PULL") {
                     sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen16.png"));
+                    bullet = new Bullet(sprite, pType, pX, pY - sprite.img.height / 2, pVx + 2, pVy, pSpecial);
                 } else {
                     sprite = new Sprite(this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/Lasers/laserGreen04.png"));
+                    bullet = new Bullet(sprite, pType, pX, pY - sprite.img.height / 2, pVx, pVy, pSpecial);
                 }
-                bullet = new Bullet(sprite, pType, pX, pY - sprite.img.height / 2, pVx, pVy, pSpecial);
                 this.bulletList.push(bullet);
                 this.sfxShoot.currentTime = 0;
                 this.sfxShoot.play();
@@ -156,7 +160,7 @@ class BulletManager {
                                 let dist = distance(bullet.x + bullet.sprite.img.width / 2, bullet.y + bullet.sprite.img.height / 2, enemy.x + enemy.sprite.img.width / 2, enemy.y + enemy.sprite.img.height / 2);
                                 if (dist <= bullet.radius) {
                                     // Save enemies in order to attract them
-                                    if (!bullet.enemiesInRange.includes(enemy) && enemy.type!== "BOSS")
+                                    if (!bullet.enemiesInRange.includes(enemy) && enemy.type !== "BOSS")
                                         bullet.enemiesInRange.push(enemy);
                                     if (bullet.enemiesInRange.length >= bullet.maxEnemiesInRange)
                                         bullet.isFilled = true
@@ -191,7 +195,6 @@ class BulletManager {
                         }
                     }
                 }
-                // console.log(bullet.enemiesInRange)
             }
             // Check collision between the bullet and the hero
             if (bullet.type === "ENEMY") {
@@ -214,7 +217,6 @@ class BulletManager {
                 this.remove(bullet)
             }
         }
-        // console.log(this.bulletList.length)
 
     }
 

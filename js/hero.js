@@ -61,7 +61,7 @@ class Hero {
             case 'Space':
                 this.shoot = true;
                 break;
-            case 'KeyP':
+            case 'KeyX':
                 this.pull = true;
                 break;
         }
@@ -89,7 +89,7 @@ class Hero {
                 this.shoot = false;
                 this.shootTimer = 0;
                 break;
-            case 'KeyP':
+            case 'KeyX':
                 this.pull = false;
                 break;
         }
@@ -118,7 +118,7 @@ class Hero {
     update(dt) {
         if (this.died) {
             this.serviceManager.gameOver = true;
-            this.serviceManager.startGame=false
+            this.serviceManager.startGame = false;
             return;
         }
         // Move the player
@@ -148,6 +148,10 @@ class Hero {
         this.sprite.y = this.y;
     }
 
+    /**
+     * Show how much lives is left to he hero
+     * @param {CanvasRenderingContext2D} pCtx - The context used to draw in the canvas
+     */
     drawLives(pCtx) {
         let imgX = this.serviceManager.assetLoader.getImage("vault/images/Sprites/PNG/UI/numeralX.png");
         pCtx.drawImage(imgX, this.icon.x + this.icon.img.width + 5, this.icon.y + 5);

@@ -2,6 +2,7 @@ let assetLoader;
 let start;
 let sceneGame, sceneHome, sceneGameOver, sceneVictory;
 let serviceManager;
+let pause = false;
 
 
 /**
@@ -12,7 +13,7 @@ function startGame() {
     sceneGame = new SceneGame(serviceManager);
     serviceManager.setSceneGame = sceneGame;
     sceneHome = new SceneHome(serviceManager);
-    sceneGameOver = new SceneGameHover(serviceManager);
+    sceneGameOver = new SceneGameOver(serviceManager);
     sceneVictory = new SceneVictory(serviceManager);
     sceneGame.load();
     sceneGameOver.load();
@@ -26,10 +27,12 @@ function startGame() {
  * @param {KeyboardEvent} pKey
  */
 function keyDown(pKey) {
-    pKey.preventDefault();
-    // console.log("Key down "  + pKey.code)
-    if (serviceManager.startGame)
-        sceneGame.keyDown(pKey.code)
+    if (!pause) {
+        pKey.preventDefault();
+        // console.log("Key down "  + pKey.code)
+        if (serviceManager.startGame && !pause)
+            sceneGame.keyDown(pKey.code)
+    }
 }
 
 /**
@@ -37,6 +40,7 @@ function keyDown(pKey) {
  * @param {KeyboardEvent} pKey
  */
 function keyUp(pKey) {
+
     pKey.preventDefault();
     // console.log("Key up " + pKey.code)
     if (serviceManager.gameOver) {
@@ -45,7 +49,10 @@ function keyUp(pKey) {
         sceneVictory.keyUp(pKey.code)
     } else {
         if (serviceManager.startGame) {
-            sceneGame.keyUp(pKey.code);
+            if (pKey.code === "Enter")
+                pause = !pause;
+            if (!pause)
+                sceneGame.keyUp(pKey.code);
         } else
             sceneHome.keyUp(pKey.code);
     }
@@ -69,19 +76,13 @@ function load() {
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen2.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen3.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Enemies/enemyGreen4.png");
-    assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen14.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen15.png");
     assetLoader.addImage("vault/images/Sprites/PNG/Lasers/laserGreen16.png");
-    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral0.png");
     assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral1.png");
     assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral2.png");
     assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral3.png");
     assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral4.png");
     assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral5.png");
-    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral6.png");
-    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral7.png");
-    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral8.png");
-    assetLoader.addImage("vault/images/Sprites/PNG/UI/numeral9.png");
     assetLoader.addImage("vault/images/Sprites/PNG/UI/numeralX.png");
     assetLoader.addImage("vault/images/Sprites/PNG/UI/playerLife3_green.png");
     // Load audio
@@ -105,17 +106,10 @@ function update(dt) {
     if (!start) {
         return
     }
-    if (serviceManager.gameOver) {
-        sceneGameOver.update(dt);
-    } else if (serviceManager.victory) {
-        sceneVictory.update(dt)
-    } else {
+    if (!pause) {
         if (serviceManager.startGame)
             sceneGame.update(dt);
-        else
-            sceneHome.update(dt)
     }
-
 
 }
 

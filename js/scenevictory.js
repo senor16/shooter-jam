@@ -24,18 +24,11 @@ class SceneVictory {
      */
     keyUp(pCode) {
         if (pCode === "Enter") {
-            this.serviceManager.startGame = false
-            this.serviceManager.victory=false
+            this.serviceManager.startGame = false;
+            this.serviceManager.victory = false
         }
     }
 
-    /**
-     * Update the scene
-     * @param {Number} dt - Delta time
-     */
-    update(dt) {
-
-    }
 
     /**
      * Draw thw scene

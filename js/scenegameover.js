@@ -1,4 +1,4 @@
-class SceneGameHover {
+class SceneGameOver {
     /**
      * Create an instance of Scene game over
      * @param {ServiceManager} pServiceManager
@@ -21,18 +21,11 @@ class SceneGameHover {
      */
     keyUp(pCode) {
         if (pCode === "Enter") {
-            this.serviceManager.startGame = false
-            this.serviceManager.gameOver=false
+            this.serviceManager.startGame = false;
+            this.serviceManager.gameOver = false
         }
     }
 
-    /**
-     * Update the scene
-     * @param {Number} dt - Delta time
-     */
-    update(dt) {
-
-    }
 
     /**
      * Draw thw scene
