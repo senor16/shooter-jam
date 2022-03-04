@@ -20,6 +20,14 @@ You can pause the game by hitting Enter
 ![Pull yourself together](La4X0_.png)
 ### Flavor : 
 ![Push Away](Az_Ktr.png)
+
+
+### How does the game fit into the Theme?
+You're in command of a spaceship. You in a foreign galaxy and want to get home. But numerous enemies ship are on your way. You'll use a special weapon to pull enemies spaceship together and destroy them.
+
+### How does the game incorporate the Flavor?
+When using the special weapon, if there is not enough spaceship in front, the weapon ill push those spaceships away
+
 ## Screenshots
 ![Screenshot1](screenshot1.png)
 ![Screenshot1](screenshot2.png)
