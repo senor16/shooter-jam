@@ -15,7 +15,7 @@ and X key to shoot a special weapon
 
 You can pause the game by hitting Enter
 
-## Made for the [StraightUp GameJam](https://itch.io/jam/straightupgamejam2) 
+## Made for the [StraightUp GameJam 2](https://itch.io/jam/straightupgamejam2) 
 ### Theme :  
 ![Pull yourself together](La4X0_.png)
 ### Flavor : 
