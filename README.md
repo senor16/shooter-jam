@@ -1,6 +1,7 @@
 # Shooter Jam
 ![Cover](cover.png)
-An `HTML 5` Horizontal Shooter [Link to itch.io project](https://senor16.itch.io/shooter-jam)
+An `HTML 5` Horizontal Shooter   
+[Link to itch.io project](https://senor16.itch.io/shooter-jam)
 
 ### Description
 You're in command of a spaceship. You in a foreign galaxy and should get home.
